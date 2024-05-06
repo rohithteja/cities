@@ -27,6 +27,7 @@ if more_details:
 st.markdown('### Vehicle Speed')
 st.markdown('Daily Mean(Mean of all vehicles in all roads)')
 st.image(f'data/{city}/comparisonspeed.png')
+st.image(f'data/{city}/speedhist.png')
 more_details2 = st.checkbox('Show Individual Plots',key='speed')
 if more_details2:
     st.image(f'data/{city}/speedpassenger.png')

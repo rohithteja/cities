@@ -11,7 +11,7 @@ st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
 
-city = st.selectbox('City', ['Chandigarh','Kohima','Delhi','Mumbai'])
+city = st.selectbox('City', ['Chandigarh','Kohima'])
 
 st.markdown('### Data Quality')
 st.markdown('Figure shows the number of data points available for number of hours in the dataset (24 hours means the 24 measurements are available for that road)')
@@ -19,11 +19,11 @@ st.markdown('Figure shows the number of data points available for number of hour
 st.image(f'data/{city.lower()}/hoursreported.png')
 
 st.markdown('### Vehicle Count')
-st.markdown('Daily Mean(Sum of all vehicles in all roads)')
+st.image(f'data/{city.lower()}/meancounthourly.png')
 st.image(f'data/{city.lower()}/comparisoncount.png')
 more_details = st.checkbox('Show Individual Plots',key='count')
 if more_details:
-    st.image(f'data/{city.lower()}/passengercount.png')
+    st.image(f'data/{city.lower()}/carcount.png')
     st.image(f'data/{city.lower()}/truckcount.png')
 
 
@@ -33,7 +33,7 @@ st.image(f'data/{city.lower()}/comparisonspeed.png')
 st.image(f'data/{city.lower()}/speedhist.png')
 more_details2 = st.checkbox('Show Individual Plots',key='speed')
 if more_details2:
-    st.image(f'data/{city.lower()}/speedpassenger.png')
+    st.image(f'data/{city.lower()}/speedcar.png')
     st.image(f'data/{city.lower()}/speedtruck.png')
     
 st.markdown('### Vehicle Count Map')

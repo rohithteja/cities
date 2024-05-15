@@ -28,6 +28,8 @@ st.image(f'data/{city.lower()}/dailycomparisoncount.png')
 
 st.image(f'data/{city.lower()}/hourlycomparisoncount.png')
 
+st.markdown('### Missing Data')
+
 st.markdown('Proportion of missing days in the data (2021)')
 
 st.image(f'data/{city.lower()}/2021missingtimeseriespercent.png')

@@ -11,33 +11,34 @@ st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
 
-city = st.selectbox('City', ['Chandigarh','Kohima'])
+city = st.selectbox('City', ['Kochi','Chandigarh','Kohima'])
 
 st.markdown('### Data Quality')
-st.markdown('Figure shows the number of data points available for number of hours in the dataset (24 hours means the 24 measurements are available for that road)')
+st.markdown('Mean hourly count (2021-23)')
+st.image(f'data/{city.lower()}/countcomparison.png')
+st.markdown('Mean hourly speed (2021-23)')
+st.image(f'data/{city.lower()}/speedcomparison.png')
 
-st.image(f'data/{city.lower()}/hoursreported.png')
+st.markdown('Count speed correlation (2021-23)')
 
-st.markdown('### Vehicle Count')
-st.image(f'data/{city.lower()}/meancounthourly.png')
-st.image(f'data/{city.lower()}/comparisoncount.png')
-more_details = st.checkbox('Show Individual Plots',key='count')
-if more_details:
-    st.image(f'data/{city.lower()}/carcount.png')
-    st.image(f'data/{city.lower()}/truckcount.png')
+st.image(f'data/{city.lower()}/countvsspeed.png')
+
+st.image(f'data/{city.lower()}/dailycomparisoncount.png')
 
 
-st.markdown('### Vehicle Speed')
-st.markdown('Daily Mean(Mean of all vehicles in all roads)')
-st.image(f'data/{city.lower()}/comparisonspeed.png')
-st.image(f'data/{city.lower()}/speedhist.png')
-more_details2 = st.checkbox('Show Individual Plots',key='speed')
-if more_details2:
-    st.image(f'data/{city.lower()}/speedcar.png')
-    st.image(f'data/{city.lower()}/speedtruck.png')
-    
-st.markdown('### Vehicle Count Map')
-st.image(f'data/{city.lower()}/countmap.png')
+st.image(f'data/{city.lower()}/hourlycomparisoncount.png')
 
-st.markdown('### Vehicle Speed Map')
-st.image(f'data/{city.lower()}/speedmap.png')
+st.markdown('Proportion of missing days in the data (2021)')
+
+st.image(f'data/{city.lower()}/2021missingtimeseriespercent.png')
+
+st.markdown('Time series of a few roads in the city (scatter plot to show the availability of the data)')
+st.image(f'data/{city.lower()}/id1.png')
+st.image(f'data/{city.lower()}/id2.png')
+st.image(f'data/{city.lower()}/id3.png')
+st.image(f'data/{city.lower()}/id4.png')
+
+st.markdown('Criteria = Percent of roads having data > x% of days in the year and > y% of hours in a day')
+st.image(f'data/{city.lower()}/2021matrix_missing.png')
+
+

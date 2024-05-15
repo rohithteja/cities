@@ -40,5 +40,7 @@ st.image(f'data/{city.lower()}/id4.png')
 
 st.markdown('Criteria = Percent of roads having data > x% of days in the year and > y% of hours in a day')
 st.image(f'data/{city.lower()}/2021matrix_missing.png')
+st.image(f'data/{city.lower()}/2022matrix_missing.png')
+st.image(f'data/{city.lower()}/2023matrix_missing.png')
 
 

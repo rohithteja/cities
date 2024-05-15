@@ -11,7 +11,7 @@ st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
 
-city = st.selectbox('City', ['Kochi','Chandigarh','Kohima'])
+city = st.selectbox('City', ['Kochi','Kohima','Gangtok'])
 
 st.markdown('### Data Quality')
 st.markdown('Mean hourly count (2021-23)')

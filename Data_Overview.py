@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+from geopy.geocoders import Nominatim
+import folium
+from streamlit_folium import st_folium
 
 
 
@@ -10,8 +13,25 @@ st.sidebar.title('Filters')
 st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
+geolocator = Nominatim(user_agent="city_locator")
 
 city = st.selectbox('City', ['Kochi','Kohima','Gangtok'])
+
+def get_city_coordinates(city_name):
+    location = geolocator.geocode(city_name)
+    if location:
+        return [location.latitude, location.longitude]
+    else:
+        return None
+
+coordinates = get_city_coordinates(city)
+
+if coordinates:
+    m = folium.Map(location=coordinates, zoom_start=5)
+    folium.Marker(location=coordinates, popup=city).add_to(m)
+    st_folium(m, width=700, height=500)
+else:
+    st.error(f"Could not find coordinates for {city}.")
 
 st.markdown('### Data Quality')
 st.markdown('Mean hourly count (2021-23)')

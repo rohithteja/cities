@@ -15,7 +15,7 @@ st.markdown("--------")
 
 geolocator = Nominatim(user_agent="city_locator")
 
-city = st.selectbox('City', ['Kochi','Kohima','Gangtok'])
+city = st.selectbox('City', ['Kochi','Kohima','Gangtok','Mumbai'])
 
 def get_city_coordinates(city_name):
     location = geolocator.geocode(city_name)
@@ -33,36 +33,39 @@ if coordinates:
 else:
     st.error(f"Could not find coordinates for {city}.")
 
+def toggle_images(category, button_key):
+    if f'show_{category}' not in st.session_state:
+        st.session_state[f'show_{category}'] = False
+    if st.button(f'Show/Hide data for 2022 and 2023', key=button_key):
+        st.session_state[f'show_{category}'] = not st.session_state[f'show_{category}']
+    if st.session_state[f'show_{category}']:
+        for year in [2022, 2023]:
+            st.markdown(f'Mean hourly {category} ({year})')
+            st.image(f'data/{city.lower()}/{year}/{category}.png')
+
 st.markdown('### Data Quality')
-st.markdown('Mean hourly count (2021-23)')
-st.image(f'data/{city.lower()}/countcomparison.png')
-st.markdown('Mean hourly speed (2021-23)')
-st.image(f'data/{city.lower()}/speedcomparison.png')
-
-st.markdown('Count speed correlation (2021-23)')
-
-st.image(f'data/{city.lower()}/countvsspeed.png')
-
-st.image(f'data/{city.lower()}/dailycomparisoncount.png')
+st.markdown('#### Mean hourly count (2021)')
+st.image(f'data/{city.lower()}/2021/countcomparison.png')
+toggle_images('countcomparison', 'button_count')
 
 
-st.image(f'data/{city.lower()}/hourlycomparisoncount.png')
+st.markdown('#### Mean hourly speed (2021)')
+st.image(f'data/{city.lower()}/2021/speedcomparison.png')
+toggle_images('speedcomparison', 'button_speed')
+
+st.markdown('#### Daily traffic timeseries (2021)')
+st.image(f'data/{city.lower()}/2021/dailycomparisoncount.png')
+toggle_images('dailycomparisoncount', 'button_daily')
 
 st.markdown('### Missing Data')
-
 st.markdown('Proportion of missing days in the data (2021)')
+st.image(f'data/{city.lower()}/2021/missingtimeseriespercent.png')
+toggle_images('missingtimeseriespercent', 'button_missing')
 
-st.image(f'data/{city.lower()}/2021missingtimeseriespercent.png')
-
-st.markdown('Time series of a few roads in the city (scatter plot to show the availability of the data)')
-st.image(f'data/{city.lower()}/id1.png')
-st.image(f'data/{city.lower()}/id2.png')
-st.image(f'data/{city.lower()}/id3.png')
-st.image(f'data/{city.lower()}/id4.png')
-
-st.markdown('Criteria = Percent of roads having data > x% of days in the year and > y% of hours in a day')
-st.image(f'data/{city.lower()}/2021matrix_missing.png')
-st.image(f'data/{city.lower()}/2022matrix_missing.png')
-st.image(f'data/{city.lower()}/2023matrix_missing.png')
-
+# Load the HTML file
+html_file = open(f'data/{city}/2021/' + 'map.html', 'r', encoding='utf-8')
+source_code = html_file.read() 
+st.markdown('### Click on road for timeseries')
+# Use the Streamlit components.html function to display the map
+st.components.v1.html(source_code, height = 600, width = 800)
 

@@ -67,5 +67,5 @@ html_file = open(f'data/{city.lower()}/2021/map.html', 'r', encoding='utf-8')
 source_code = html_file.read() 
 st.markdown('### Click on road for timeseries')
 # Use the Streamlit components.html function to display the map
-st.components.v1.html(source_code, height = 600, width = 800)
+st.components.v1.html(source_code, height = 600, width = 900)
 

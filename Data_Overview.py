@@ -15,7 +15,7 @@ st.markdown("--------")
 
 geolocator = Nominatim(user_agent="city_locator")
 
-city = st.selectbox('City', ['Mumbai','Chandigarh','Kochi','Kohima','Gangtok'])
+city = st.selectbox('City', ['Mumbai','Delhi', 'Hyderabad', 'Chandigarh','Kochi','Kohima','Gangtok'])
 
 def get_city_coordinates(city_name):
     location = geolocator.geocode(city_name)
@@ -40,7 +40,7 @@ def toggle_images(category, button_key):
         st.session_state[f'show_{category}'] = not st.session_state[f'show_{category}']
     if st.session_state[f'show_{category}']:
         for year in [2022, 2023]:
-            st.markdown(f'Mean hourly {category} ({year})')
+            st.markdown(f'({year})')
             st.image(f'data/{city.lower()}/{year}/{category}.png')
 
 st.markdown('### Data Quality')
@@ -49,18 +49,24 @@ st.image(f'data/{city.lower()}/2021/countcomparison.png')
 toggle_images('countcomparison', 'button_count')
 
 
+st.markdown('---------------------')
+
+
 st.markdown('#### Mean hourly speed (2021)')
 st.image(f'data/{city.lower()}/2021/speedcomparison.png')
 toggle_images('speedcomparison', 'button_speed')
+st.markdown('---------------------')
 
 st.markdown('#### Daily traffic timeseries (2021)')
 st.image(f'data/{city.lower()}/2021/dailycomparisoncount.png')
 toggle_images('dailycomparisoncount', 'button_daily')
+st.markdown('---------------------')
 
 st.markdown('### Missing Data')
 st.markdown('Proportion of missing days in the data (2021)')
 st.image(f'data/{city.lower()}/2021/missingtimeseriespercent.png')
 toggle_images('missingtimeseriespercent', 'button_missing')
+st.markdown('---------------------')
 
 # Load the HTML file
 html_file = open(f'data/{city.lower()}/2021/map.html', 'r', encoding='utf-8')

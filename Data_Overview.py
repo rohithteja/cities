@@ -63,7 +63,7 @@ st.image(f'data/{city.lower()}/2021/missingtimeseriespercent.png')
 toggle_images('missingtimeseriespercent', 'button_missing')
 
 # Load the HTML file
-html_file = open(f'data/{city}/2021/' + 'map.html', 'r', encoding='utf-8')
+html_file = open(f'data/{city.lower()}/2021/map.html', 'r', encoding='utf-8')
 source_code = html_file.read() 
 st.markdown('### Click on road for timeseries')
 # Use the Streamlit components.html function to display the map

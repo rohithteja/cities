@@ -15,7 +15,7 @@ st.markdown("--------")
 
 geolocator = Nominatim(user_agent="city_locator")
 
-city = st.selectbox('City', ['Mumbai','Hyderabad', 'Chandigarh','Kochi','Kohima','Gangtok'])
+city = st.selectbox('City', sorted(['Mumbai','Hyderabad', 'Chennai','Chandigarh','Kochi','Kohima','Gangtok']))
 
 def get_city_coordinates(city_name):
     location = geolocator.geocode(city_name)

@@ -18,7 +18,7 @@ city = st.selectbox('City', sorted(['Mumbai','Hyderabad', 'Chennai','Chandigarh'
 def get_city_coordinates(city_name):
     nomi = pgeocode.Nominatim('IN')  # 'IN' for India, change the country code as needed
     location = nomi.query_location(city_name)
-    location = location[location.county_name==city_name.capitalize()].iloc[0]    
+    location = location[location.community_name==city_name.capitalize()].iloc[0]    
     if location.empty:
         return None
     else:

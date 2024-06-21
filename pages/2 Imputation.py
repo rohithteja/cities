@@ -74,6 +74,7 @@ st.image(path +'dailycomparisoncount.png')
 st.markdown('---------------------')
 
 st.markdown('### Missing Data')
+st.markdown('No gaps in data after imputation')
 st.markdown('Proportion of missing days in the data (2021)')
 st.image(path +'missingtimeseriespercent.png')
 # toggle_images('missingtimeseriespercent', 'button_missing')

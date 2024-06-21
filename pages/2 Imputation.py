@@ -54,6 +54,7 @@ df_metrics = pd.read_csv(path + 'metrics.csv')
 st.dataframe(df_metrics)
 
 st.markdown('### Data Quality')
+st.markdown('Note: all images shown below correspond to traffic direction "F"')
 st.markdown('#### Mean hourly count (2021)')
 st.image(path +'countcomparison.png')
 # toggle_images('countcomparison', 'button_count')

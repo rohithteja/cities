@@ -16,11 +16,12 @@ direction = 'F'
 
 def get_city_coordinates(city_name):
     nomi = pgeocode.Nominatim('IN')  # 'IN' for India, change the country code as needed
-    location = nomi.query_location(city_name, top_k=1)
+    location = nomi.query_location(city_name)
+    location = location[location.county_name==city_name.capitalize()].iloc[0]    
     if location.empty:
         return None
     else:
-        return [location.latitude.values[0], location.longitude.values[0]]
+        return [location.latitude, location.longitude]
     
 # Get coordinates
 coordinates = get_city_coordinates(city)

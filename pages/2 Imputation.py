@@ -2,29 +2,27 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
-from geopy.geocoders import Nominatim
 import folium
 from streamlit_folium import st_folium
-
-
+import pgeocode
 
 st.sidebar.title('Filters')
 
 st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
-geolocator = Nominatim(user_agent="city_locator")
-
 city = st.selectbox('City', sorted(['Chennai']))
 direction = 'F'
 
 def get_city_coordinates(city_name):
-    location = geolocator.geocode(city_name)
-    if location:
-        return [location.latitude, location.longitude]
-    else:
+    nomi = pgeocode.Nominatim('IN')  # 'IN' for India, change the country code as needed
+    location = nomi.query_location(city_name, top_k=1)
+    if location.empty:
         return None
-
+    else:
+        return [location.latitude.values[0], location.longitude.values[0]]
+    
+# Get coordinates
 coordinates = get_city_coordinates(city)
 
 if coordinates:

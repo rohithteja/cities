@@ -1,5 +1,5 @@
-numpy
-pandas
+numpy==1.23.3
+pandas==1.4.4
 streamlit-folium
-geopy
-folium
+geopy==2.4.1
+folium==0.14.0

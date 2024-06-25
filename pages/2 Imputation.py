@@ -11,7 +11,7 @@ st.sidebar.title('Filters')
 st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
-city = st.selectbox('City', sorted(['Chennai']))
+city = st.selectbox('City', sorted(['Chennai','Kohima']))
 direction = 'F'
 
 def get_city_coordinates(city_name):

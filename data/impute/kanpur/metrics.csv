@@ -1,0 +1,5 @@
+R2,RMSE,RRMSE,MAE,MSE,city,year,vehicle,direction,variable
+0.63,2.47,0.72,1.49,6.1,kanpur,2021,car,F,COUNT
+0.6,7.67,0.32,5.58,58.86,kanpur,2021,car,F,MEAN
+0.61,2.67,0.8,1.43,7.13,kanpur,2021,truck,F,COUNT
+0.57,8.37,0.33,6.07,70.0,kanpur,2021,truck,F,MEAN

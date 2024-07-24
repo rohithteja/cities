@@ -5,19 +5,20 @@ import pickle
 import folium
 from streamlit_folium import st_folium
 import pgeocode
+import os
 
 st.sidebar.title('Filters')
 
 st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
-city = st.selectbox('City', sorted(['Chennai','Kohima']))
+city = st.selectbox('City', sorted(['Kanpur']))
 direction = 'F'
 
 def get_city_coordinates(city_name):
     nomi = pgeocode.Nominatim('IN')  # 'IN' for India, change the country code as needed
     location = nomi.query_location(city_name)
-    location = location[location.community_name==city_name.capitalize()].iloc[0]    
+    location = location[location.community_name==city_name.capitalize()].iloc[1]    
     if location.empty:
         return None
     else:
@@ -44,19 +45,22 @@ def toggle_images(category, button_key):
             st.image(f'data/{city.lower()}/{year}/full_data/{direction}/{category}.png')
 
 st.markdown('### Model Performance')
-st.markdown('* Random Forest regression')
+st.markdown('* Light GBM regression')
 st.markdown('* Train\:Test = 80:20')
 st.markdown('Metrics for different combinations')
 
-path =  f'data/{city.lower()}/2021/full_data/{direction}/'
+path = f'data/impute/{city}/'
+st.dataframe(pd.read_csv(path +'metrics.csv'))
 
-df_metrics = pd.read_csv(path + 'metrics.csv')
-st.dataframe(df_metrics)
 
 st.markdown('### Data Quality')
 st.markdown('Note: all images shown below correspond to traffic direction "F"')
 st.markdown('#### Mean hourly count (2021)')
-st.image(path +'countcomparison.png')
+st.markdown('Original data')
+st.image(path +'initial_data/2021/countcomparison.png')
+st.markdown('Imputed data')
+st.image(path +'full_data/2021/countcomparison.png')
+
 # toggle_images('countcomparison', 'button_count')
 
 
@@ -64,24 +68,42 @@ st.markdown('---------------------')
 
 
 st.markdown('#### Mean hourly speed (2021)')
-st.image(path +'speedcomparison.png')
+st.markdown('Original data')
+st.image(path +'initial_data/2021/speedcomparison.png')
+st.markdown('Imputed data')
+st.image(path +'full_data/2021/speedcomparison.png')
 # toggle_images('speedcomparison', 'button_speed')
 st.markdown('---------------------')
 
 st.markdown('#### Daily traffic timeseries (2021)')
-st.image(path +'dailycomparisoncount.png')
+st.markdown('Original data')
+st.image(path +'initial_data/2021/dailycomparisoncount.png')
+st.markdown('Imputed data')
+st.image(path +'full_data/2021/dailycomparisoncount.png')
 # toggle_images('dailycomparisoncount', 'button_daily')
 st.markdown('---------------------')
 
-st.markdown('### Missing Data')
-st.markdown('No gaps in data after imputation')
-st.markdown('Proportion of missing days in the data (2021)')
-st.image(path +'missingtimeseriespercent.png')
-# toggle_images('missingtimeseriespercent', 'button_missing')
-st.markdown('---------------------')
+# st.markdown('### Missing Data')
+# st.markdown('No gaps in data after imputation')
+# st.markdown('Proportion of missing days in the data (2021)')
+# st.markdown('Original data')
+# st.image(path +'initial_data/2021/missingtimeseriespercent.png')
+# st.markdown('Imputed data')
+# st.image(path +'full_data/2021/missingtimeseriespercent.png')
+# # toggle_images('missingtimeseriespercent', 'button_missing')
+# st.markdown('---------------------')
 
 # Load the HTML file
-html_file = open(path +'map.html', 'r', encoding='utf-8')
+st.markdown('Original data')
+
+html_file = open(path +'initial_data/2021/map.html', 'r', encoding='utf-8')
+source_code = html_file.read() 
+st.markdown('### Click on road for timeseries')
+# Use the Streamlit components.html function to display the map
+st.components.v1.html(source_code, height = 600, width = 900)
+st.markdown('Imputed data')
+
+html_file = open(path +'full_data/2021/map.html', 'r', encoding='utf-8')
 source_code = html_file.read() 
 st.markdown('### Click on road for timeseries')
 # Use the Streamlit components.html function to display the map

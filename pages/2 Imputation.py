@@ -49,7 +49,7 @@ st.markdown('* Light GBM regression')
 st.markdown('* Train\:Test = 80:20')
 st.markdown('Metrics for different combinations')
 
-path = f'data/impute/{city}/'
+path = f'data/impute/{city.lower()}/'
 st.dataframe(pd.read_csv(path +'metrics.csv'))
 
 

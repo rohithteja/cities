@@ -49,7 +49,7 @@ st.markdown('''Temporal predictors:
 6. Quarter
 7. Part of day (morning, afternoon, evening)''')
 st.markdown('''Spatial predictors:
-1. Annual mean vehicle count/ speed (binned into 4 classes)
+1. Annual mean vehicle count/ speed (binned into 4 classes for visualization)
 2. Functional class of street (type of streets i.e., highway, small street etc)
 3. Speed limit of street
 4. Lane category of street''')

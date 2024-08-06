@@ -13,7 +13,7 @@ st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
 city = st.selectbox('City', sorted(['Kanpur','Guwahati','Bhopal','Hyderabad','Coimbatore','Kohima']))
-vehicle = st.selectbox('Vehicle', ['car','truck'])
+vehicle = st.selectbox('Vehicle', ['CAR','TRUCK'])
 variable = st.selectbox('Variable', ['COUNT','MEAN'],help='COUNT: Vehicle count, MEAN: Vehicle speed')
 direction = 'F'
 year = '2021'

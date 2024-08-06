@@ -38,7 +38,7 @@ if coordinates:
 else:
     st.error(f"Could not find coordinates for {city}.")
 
-path = f'data/variability/{city}/{year}'
+path = f'data/variability/{city.lower()}/{year}'
 
 st.markdown('''Temporal predictors:
 1. Hour

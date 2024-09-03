@@ -1,5 +1,7 @@
-numpy==1.23.3
-pandas==1.4.4
+numpy
+pandas
 streamlit-folium
-folium==0.14.0
+folium
 pgeocode
+altair
+matplotlib

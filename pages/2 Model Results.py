@@ -8,6 +8,7 @@ from streamlit_folium import st_folium
 import pgeocode
 import os
 import altair as alt
+import matplotlib.pyplot as plt
 
 st.sidebar.title('City Selection')
 
@@ -101,6 +102,9 @@ st.markdown('''```
 st.markdown('''```
             Model = Light GBM regression''')
 
+st.markdown(f'#### R2 score = {metrics[metrics["city"] == st.session_state.selected_city.lower()]["R2"].values[0]}')
+
+
 st.markdown('### SHAP Importance')
 
 shap = pd.read_csv('data/results/all_shap.csv')
@@ -129,7 +133,6 @@ chart = alt.Chart(shap_sorted[['variables', 'value', 'category']]).mark_bar().en
 st.altair_chart(chart, use_container_width=True)
 
 metrics_pie = metrics[metrics['city'] == st.session_state.selected_city.lower()][['temporal (%)', 'spatial (%)']].iloc[0]
-import matplotlib.pyplot as plt
 
 # Create a pie chart
 st.markdown('### Predictor Influence')

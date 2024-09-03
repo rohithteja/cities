@@ -31,7 +31,7 @@ num_columns = 2  # Number of columns in the grid
 
 # Initialize session state for selected city
 if 'selected_city' not in st.session_state:
-    st.session_state.selected_city = None
+    st.session_state.selected_city = 'Aizawl'
 
 # Create the grid
 for i in range(0, len(sorted_cities), num_columns):

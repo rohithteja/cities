@@ -132,27 +132,21 @@ chart = alt.Chart(shap_sorted[['variables', 'value', 'category']]).mark_bar().en
 # Display the chart
 st.altair_chart(chart, use_container_width=True)
 
-metrics_pie = metrics[metrics['city'] == st.session_state.selected_city.lower()][['temporal (%)', 'spatial (%)']].iloc[0]
+metrics_pie = metrics[metrics['city'] == st.session_state.selected_city.lower()][['temporal (%)', 'spatial (%)']].iloc[0].reset_index()
+metrics_pie.columns = ['variables', 'value']
+metrics_pie['category'] = ['Temporal', 'Spatial']
 
 # Create a pie chart
 st.markdown('### Predictor Influence')
-# fig, ax = plt.subplots(figsize=(4, 4))
-# ax.pie(metrics_pie, labels=metrics_pie.index, autopct='%1.1f%%', startangle=140, colors=['blue','red'],pctdistance=0.55,  # Adjust this to move labels inside
-#     textprops=dict(color="white", fontsize=5)) 
-# transparent background
-# fig.patch.set_alpha(0)
 
-fig, ax = plt.subplots(figsize=(4, 4))
-
-# Adjusted pie chart settings
-ax.pie(
-    metrics_pie,
-    labels=metrics_pie.index,
-    autopct='%1.1f%%',
-    startangle=140,
-    colors=['blue', 'red'],
-    pctdistance=0.75,  # Move labels outward
-    textprops=dict(color="white", fontsize=8)  # Larger font size
+chart = alt.Chart(metrics_pie[['variables', 'value', 'category']]).mark_bar().encode(
+    x=alt.X('variables', sort=None, title="Predictor Categories"),
+    y=alt.Y('value', title="SHAP Importance (%)"),
+    color=alt.Color('category:N', scale=color_scale, title='Category')
+).properties(
+    width=800,  # Adjust width if needed
+    height=400  # Adjust height if needed
 )
 
-st.pyplot(fig)
+# Display the chart
+st.altair_chart(chart, use_container_width=True)

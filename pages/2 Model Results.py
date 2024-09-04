@@ -140,5 +140,5 @@ fig, ax = plt.subplots(figsize=(2, 2))
 ax.pie(metrics_pie, labels=metrics_pie.index, autopct='%1.1f%%', startangle=140, colors=['blue','red'],pctdistance=0.55,  # Adjust this to move labels inside
     textprops=dict(color="white", fontsize=5)) 
 # transparent background
-fig.patch.set_alpha(0)
+# fig.patch.set_alpha(0)
 st.pyplot(fig)

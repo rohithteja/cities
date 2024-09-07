@@ -20,6 +20,13 @@ cities = ['aizawl', 'bhopal', 'bhubaneswar', 'chandigarh', 'chennai', 'coimbator
 metricss = pd.read_csv('data/results/all_metrics.csv')
 metrics = metricss.groupby(['city']).mean().reset_index().round(2)
 
+r2_df = pd.read_csv('data/results/all_r2.csv').groupby(['city']).mean().reset_index().round(2)
+metrics = pd.merge(metrics, r2_df[['city','r2_temporal','r2_spatial']], on='city', how='left')
+# remove columns
+metrics.drop(['RMSE','MAE','MSE'], axis=1, inplace=True)
+# rename columns temporal (%) and spatial (%)
+metrics.rename(columns={'temporal (%)':'SHAP Temporal %', 'spatial (%)':'SHAP Spatial %'}, inplace=True)
+
 st.markdown('### Metrics for different cities')
 st.dataframe(metrics)
 
@@ -132,17 +139,27 @@ chart = alt.Chart(shap_sorted[['variables', 'value', 'category']]).mark_bar().en
 # Display the chart
 st.altair_chart(chart, use_container_width=True)
 
-metrics_pie = metrics[metrics['city'] == st.session_state.selected_city.lower()][['temporal (%)', 'spatial (%)']].iloc[0].reset_index()
+metrics_pie = metrics[metrics['city'] == st.session_state.selected_city.lower()][['r2_temporal', 'r2_spatial']].iloc[0].reset_index()
 metrics_pie.columns = ['variables', 'value']
 metrics_pie['category'] = ['Temporal', 'Spatial']
+color_scale2 = alt.Scale(domain=['Temporal', 'Spatial'], range=['purple', 'darkorange'])
 
 # Create a pie chart
-st.markdown('### Predictor Influence')
+st.markdown('### Category Influence (R2)')
+st.markdown('''```
+            Spatial R2 = Compares the correlation between the ACTUAL annual mean 
+            vehicle count/speed and the PREDICTED annual vehicle count/speed 
+            of all streets in the city''')
+st.markdown('''```
+            Temporal R2 = Compares the correlation between the ACTUAL vehicle 
+            count/speed timeseries (after subtracting the mean) and the 
+            PREDICTED vehicle count/speed timeseries (subtracting mean) 
+            of all streets in the city''')
 
 chart = alt.Chart(metrics_pie[['variables', 'value', 'category']]).mark_bar().encode(
     x=alt.X('variables', sort=None, title="Predictor Categories"),
-    y=alt.Y('value', title="SHAP Importance (%)"),
-    color=alt.Color('category:N', scale=color_scale, title='Category')
+    y=alt.Y('value', title="R2"),
+    color=alt.Color('category:N', scale=color_scale2, title='Category')
 ).properties(
     width=800,  # Adjust width if needed
     height=400  # Adjust height if needed

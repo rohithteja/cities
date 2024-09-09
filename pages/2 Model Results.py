@@ -15,10 +15,11 @@ st.sidebar.title('City Selection')
 st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
-cities = ['aizawl', 'bhopal', 'bhubaneswar', 'chandigarh', 'chennai', 'coimbatore', 'erode', 'faridabad', 'gangtok', 'guwahati', 'hubli dharwad', 'hyderabad', 'imphal', 'indore', 'jaipur', 'kanpur', 'kochi', 'kohima', 'kolkata', 'lucknow', 'madurai', 'mangaluru', 'meerut', 'mysuru', 'patna', 'pune', 'ranchi', 'rourkela', 'shilong', 'shivamogga', 'surat', 'tiruchirappalli', 'tiruppur', 'vadodara', 'varanashi', 'vijaywada', 'vishakhapatnam']
 
 metricss = pd.read_csv('data/results/all_metrics.csv')
 metrics = metricss.groupby(['city']).mean().reset_index().round(2)
+
+cities = metrics['city'].tolist()
 
 r2_df = pd.read_csv('data/results/all_r2.csv').groupby(['city']).mean().reset_index().round(2)
 metrics = pd.merge(metrics, r2_df[['city','r2_temporal','r2_spatial']], on='city', how='left')

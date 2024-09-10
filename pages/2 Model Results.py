@@ -146,7 +146,7 @@ metrics_pie['category'] = ['Temporal', 'Spatial']
 color_scale2 = alt.Scale(domain=['Temporal', 'Spatial'], range=['purple', 'darkorange'])
 
 # Create a pie chart
-st.markdown('### Category Influence (R2)')
+st.markdown('### Correlation (R2)')
 st.markdown('''```
             Spatial R2 = Compares the correlation between the ACTUAL annual mean 
             vehicle count/speed and the PREDICTED annual vehicle count/speed 
@@ -158,9 +158,9 @@ st.markdown('''```
             of all streets in the city''')
 
 chart = alt.Chart(metrics_pie[['variables', 'value', 'category']]).mark_bar().encode(
-    x=alt.X('variables', sort=None, title="Predictor Categories"),
+    x=alt.X('variables', sort=None, title="Type"),
     y=alt.Y('value', title="R2"),
-    color=alt.Color('category:N', scale=color_scale2, title='Category')
+    color=alt.Color('category:N', scale=color_scale2, title='Type')
 ).properties(
     width=800,  # Adjust width if needed
     height=400  # Adjust height if needed

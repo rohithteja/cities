@@ -26,6 +26,16 @@ st.markdown('### Correction Factor for different cities')
 st.dataframe(metricss)
 
 st.markdown('Correction factor is multipled to the gps vehicle count to obtain the true vehicle count.')
+# fuel_consumption_gps = count * 365 * (fuel_eco(speed) * trip_dist * (1328/1000000))
+   # cf = city_petrol / fuel_consumption_gps 
+# equation for correction factor
+
+st.markdown('''```
+            cf = city_fuel_consumption / (gpscount * 365 * (fuel_economy(gpsspeed) * trip_distance))''')
+st.markdown('''```
+            where,
+            * fuel_economy = computed as a function of speed (using equation from COPERT model)
+            * trip_distance = average daily trip distance of vehicles in the city''')
 st.markdown('''```
             Variables:
             1. gpscount = mean hourly gps vehicle count

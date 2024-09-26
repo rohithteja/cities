@@ -63,6 +63,28 @@ if st.session_state.selected_city:
         elif city_name.lower() == 'imphal':
             location = nomi.query_location('Imphal')
             location = location[location.county_name.str.contains('Imphal')].iloc[0]
+        elif city_name.lower() == 'kanpur':
+            location = nomi.query_location('Kanpur')
+            location = location[location.county_name.str.contains('Kanpur')].iloc[1]
+        elif city_name.lower() == 'mangaluru':
+            location = nomi.query_location('Mangalore')
+            location = location[location.community_name.str.contains('Mangalore')].iloc[0]
+        elif city_name.lower() == 'patna':
+            return [25.5941, 85.1376]
+        elif city_name.lower() == 'rourkela':
+            return [22.2604, 84.8536]
+        elif city_name.lower() == 'shilong':
+            return [25.5788, 91.8933]
+        elif city_name.lower() == 'shivamogga':
+            return [13.9299, 75.5681]
+        elif city_name.lower() == 'tiruppur':
+            return [11.1085, 77.3411]
+        elif city_name.lower() == 'varanashi':
+            return [25.3176, 82.9739]
+        elif city_name.lower() == 'vijaywada':
+            return [16.5062, 80.6480]
+        elif city_name.lower() == 'vishakhapatnam':
+            return [17.6868, 83.2185]
         else:
             location = nomi.query_location(city_name)
             if location.empty:
@@ -155,7 +177,7 @@ st.markdown('''```
             Temporal R2 = Compares the correlation between the ACTUAL vehicle 
             count/speed timeseries (after subtracting the mean) and the 
             PREDICTED vehicle count/speed timeseries (subtracting mean) 
-            of all streets in the city''')
+            of all streets in the city''') 
 
 chart = alt.Chart(metrics_pie[['variables', 'value', 'category']]).mark_bar().encode(
     x=alt.X('variables', sort=None, title="Type"),

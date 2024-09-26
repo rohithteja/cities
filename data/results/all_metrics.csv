@@ -1,4 +1,12 @@
 R2,RMSE,RRMSE,MAE,MSE,city,year,vehicle,direction,variable,temporal (%),spatial (%)
+0.82,4.26,0.95,1.88,18.19,delhi,2021,car,F,COUNT,45.9,54.1
+0.71,6.69,0.29,4.66,44.77,delhi,2021,car,F,MEAN,34.12,65.88
+0.45,6.82,1.59,2.05,46.52,delhi,2021,truck,F,COUNT,44.17,55.83
+0.65,7.24,0.33,4.89,52.44,delhi,2021,truck,F,MEAN,33.95,66.05
+0.61,3.29,1.09,1.33,10.86,bengaluru,2021,car,F,COUNT,47.45,52.55
+0.69,6.29,0.26,4.4,39.51,bengaluru,2021,car,F,MEAN,33.58,66.42
+0.62,1.76,0.67,0.98,3.1,bengaluru,2021,truck,F,COUNT,39.17,60.83
+0.68,6.42,0.25,4.48,41.18,bengaluru,2021,truck,F,MEAN,35.16,64.84
 0.71,1.82,0.74,0.98,3.31,ahmedabad,2021,car,F,COUNT,48.01,51.99
 0.67,6.86,0.24,4.75,47.03,ahmedabad,2021,car,F,MEAN,30.74,69.26
 0.5,2.21,0.91,0.98,4.89,ahmedabad,2021,truck,F,COUNT,40.3,59.7

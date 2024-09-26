@@ -147,6 +147,8 @@ ax.set_title('Initial GPS Count vs Corrected Count')
 ax.legend()
 st.pyplot(fig)
 
+st.markdown('---------------------')
+st.markdown('The following analysis is done on original gps data + imputed data (correction factor not included).')
 # images 
 city = st.session_state.selected_city
 st.markdown('#### Mean hourly count (2021)')
@@ -161,11 +163,11 @@ st.markdown('#### Daily traffic timeseries (2021)')
 st.image(f'data/results/cities_overview/{city.lower()}/2021/dailycomparisoncount.png')
 st.markdown('---------------------')
 
-st.markdown('### Mean Hourly Count Map')
+st.markdown('### Mean Hourly Count Map (2021)')
 st.markdown('Mean hourly count of vehicles in the city')
 st.image(f'data/results/cities_overview/{city.lower()}/2021/countmap.png')
 st.markdown('---------------------')
 
-st.markdown('### Mean Hourly Speed Map')
+st.markdown('### Mean Hourly Speed Map (2021)')
 st.markdown('Mean hourly speed of vehicles in the city')
 st.image(f'data/results/cities_overview/{city.lower()}/2021/speedmap.png')

@@ -25,17 +25,27 @@ cities = metrics['city'].tolist()
 st.markdown('### Correction Factor for different cities')
 st.dataframe(metricss)
 
-st.markdown('Correction factor is multipled to the gps vehicle count to obtain the true vehicle count.')
+st.markdown('Correction factor (cf) is multipled to the gps vehicle count to obtain the true vehicle count.')
 # fuel_consumption_gps = count * 365 * (fuel_eco(speed) * trip_dist * (1328/1000000))
    # cf = city_petrol / fuel_consumption_gps 
 # equation for correction factor
 
-st.markdown('''```
-            cf = city_fuel_consumption / (gpscount * 365 * (fuel_economy(gpsspeed) * trip_distance))''')
+st.markdown('''
+            cf = city_fuel_consumption / (gpscount * 365 * 
+            ([fuel_economy](https://www.eea.europa.eu/publications/EMEPCORINAIR3/B710vs4.0.pdf)(gpsspeed) * [trip_distance](https://www.sciencedirect.com/science/article/pii/S2352340918311740)))''')
+
+# add link for the variable trip distance 
+
+
+
+
 st.markdown('''```
             where,
-            * fuel_economy = computed as a function of speed (using equation from COPERT model)
-            * trip_distance = average daily trip distance of vehicles in the city''')
+            1. fuel_economy = computed as a function of speed (using equation 
+            from COPERT model)
+            2. trip_distance = average daily trip distance of vehicles in the city. 
+            Values are available at state level, so all cities in a state have 
+            the same value.''')
 st.markdown('''```
             Variables:
             1. gpscount = mean hourly gps vehicle count
@@ -56,6 +66,14 @@ ax.set_ylabel('Correction Factor')
 for i, txt in enumerate(metricss['city']):
     ax.annotate(txt, (metricss['gpscount'][i], metricss['correction_factor'][i]))
 st.pyplot(fig)
+
+st.markdown('#### Correlation between average speed and daily trip distance')
+st.image('data/results/tripdist.png')
+
+st.markdown('#### Heatmap of correlation between variables')
+st.image('data/results/heatmap.png')
+
+st.markdown('---------------------')
 
 # Capitalize city names and sort them
 sorted_cities = sorted([i.capitalize() for i in cities])

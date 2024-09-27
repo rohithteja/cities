@@ -45,7 +45,8 @@ st.markdown('''```
             from COPERT model)
             2. trip_distance = average daily trip distance of vehicles in the city. 
             Values are available at state level, so all cities in a state have 
-            the same value.''')
+            the same value.
+            3. Fuel = gasoline for cars, diesel for trucks''')
 st.markdown('''```
             Variables:
             1. gpscount = mean hourly gps vehicle count

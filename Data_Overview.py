@@ -114,12 +114,21 @@ if selected_points is not None and len(selected_points['selection']['points']) >
     • Population: {city_data['population_2020'].values[0]:,}
     """)
 
+    st.markdown("#### CO2 emissions timeseries")
+    st.image("data/timeseries/ts_co2/{city}.png".format(city=selected_city))
+
+    st.markdown("#### Vehicle count timeseries")
+    st.image("data/timeseries/ts_count/{city}.png".format(city=selected_city))
+
+    st.markdown(f"#### CO2 emission maps: {selected_city.title()}")
+    st.image("data/timeseries/maps/{city}.png".format(city=selected_city))
+
     st.markdown("Plots below show the values for the selected city over the years and compare them with the mean values for all cities.")
 
     st.markdown("### CO₂ Emissions Over Years")
     mean_df = df.groupby(['year', 'vehicle'])['co2_pc'].mean().reset_index()
     mean_df.year = mean_df.year.astype(str)
-    plt.figure(figsize=(10,5),dpi=300)
+    plt.figure(figsize=(10,5))
     city_df = df[df['city'] == selected_city]
     sns.barplot(data=city_df, x='year', y='co2_pc', hue='vehicle', edgecolor='black')
     sns.lineplot(data=mean_df, x='year', y='co2_pc', hue='vehicle', 
@@ -139,7 +148,7 @@ if selected_points is not None and len(selected_points['selection']['points']) >
     st.markdown("### VKT Over Years")
     mean_df = df.groupby(['year', 'vehicle'])['vkt_pc'].mean().reset_index()
     mean_df.year = mean_df.year.astype(str)
-    plt.figure(figsize=(10,5),dpi=300)
+    plt.figure(figsize=(10,5))
     city_df = df[df['city'] == selected_city]
     sns.barplot(data=city_df, x='year', y='vkt_pc', hue='vehicle', edgecolor='black')
     sns.lineplot(data=mean_df, x='year', y='vkt_pc', hue='vehicle', 
@@ -159,7 +168,7 @@ if selected_points is not None and len(selected_points['selection']['points']) >
     st.markdown("### Fuel Consumption Over Years")
     mean_df = df.groupby(['year', 'vehicle'])['consumption_pc'].mean().reset_index()
     mean_df.year = mean_df.year.astype(str)
-    plt.figure(figsize=(10,5),dpi=300)
+    plt.figure(figsize=(10,5))
     city_df = df[df['city'] == selected_city]
     sns.barplot(data=city_df, x='year', y='consumption_pc', hue='vehicle', edgecolor='black')
     sns.lineplot(data=mean_df, x='year', y='consumption_pc', hue='vehicle', 

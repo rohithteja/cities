@@ -23,12 +23,10 @@ cities = ['kohima', 'panaji', 'itanagar', 'gangtok', 'shilong', 'nalgonda', 'shi
   'jaipur', 'lucknow', 'pune', 'surat', 'kolkata', 'hyderabad', 'chennai', 'ahmedabad', 'bengaluru', 'mumbai', 'delhi']
 
 # Load the data
-df = pd.read_csv(f'data/df_stats_streamlit.csv')
-df['vkt_pc'] = df['vkt'] / df['population_2020']
-df['consumption_pc'] = df['consumption'] / df['population_2020']
-years = [2021, 2022, 2023]
+df = pd.read_csv(f'data/stats.csv')
 
 types = ['All Cities', 'Top 15 Cities', 'Bottom 15 Cities']
+years = [2021, 2022, 2023]
 st.selectbox('Select Year', options=years, index=0, key='year')
 # filter based on city selection
 st.selectbox('Select Type', options=types, index=0, key='type')
@@ -36,13 +34,16 @@ st.selectbox('Select Type', options=types, index=0, key='type')
 # set default year in session state
 if 'year' not in st.session_state:
     st.session_state.year = 2021
+
+df = df[df['year'] == st.session_state.year]
 if 'type' not in st.session_state:
     st.session_state.type = 'All Cities'
-df_filter = df[df.year == st.session_state.year].groupby(['city', 'vehicle']).sum().reset_index()
+if st.session_state.type == 'All Cities':
+    df_filter = df.copy()
 if st.session_state.type == 'Top 15 Cities':
-    df_filter = df_filter.nlargest(15, 'co2_pc')
+    df_filter = df.nlargest(15, 'co2_pc')
 elif st.session_state.type == 'Bottom 15 Cities':
-    df_filter = df_filter.nsmallest(15, 'co2_pc')
+    df_filter = df.nsmallest(15, 'co2_pc')
 
 st.markdown("### CO₂ Emissions by City in India")
 st.markdown('''
@@ -54,7 +55,7 @@ st.markdown('''
 ''')
 
 # Compute the median CO₂ per capita
-median_co2_pc = np.median(df_filter["co2_pc"])
+median_co2_pc = np.mean(df_filter["co2_pc"])
 
 # Scale population for better size visibility
 pop_scaled = np.log1p(df_filter['population_2020'])
@@ -70,7 +71,7 @@ fig = px.scatter_map(
     color="co2_pc",
     color_continuous_scale="plasma",
     color_continuous_midpoint=median_co2_pc,
-    range_color=[df_filter["co2_pc"].min(), df_filter["co2_pc"].max()],
+    range_color=[df_filter["co2_pc"].min(), df_filter["co2_pc"].quantile(0.97)],
     custom_data=["city", "population_2020"],
     zoom=4,
     height=800,
@@ -93,10 +94,10 @@ fig.update_layout(
     title=f"Year: {st.session_state.year}",
     margin={"r": 0, "t": 40, "l": 0, "b": 0}
 )
-
+ 
 # Colorbar title
 fig.update_layout(coloraxis_colorbar=dict(
-    title="CO₂ Emissions (tons per person)",
+    title="CO₂ per Capita (tons/person)", 
     title_side="right",
     title_font=dict(size=14),
     tickfont=dict(size=12)
@@ -114,73 +115,29 @@ if selected_points is not None and len(selected_points['selection']['points']) >
     • Population: {city_data['population_2020'].values[0]:,}
     """)
 
-    st.markdown("#### CO2 emissions timeseries")
-    st.image("data/timeseries/ts_co2/{city}.png".format(city=selected_city))
+    st.markdown(f"#### CO2 emissions {st.session_state.year}")
+    st.image("data/plots1/og/ts_co2_all_byyear/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
 
-    st.markdown("#### Vehicle count timeseries")
-    st.image("data/timeseries/ts_count/{city}.png".format(city=selected_city))
+    st.markdown("#### CO2 emissions (3 years)")
+    st.image("data/plots1/og/ts_co2_all/{city}.png".format(city=selected_city))
 
-    st.markdown(f"#### CO2 emission maps: {selected_city.title()}")
-    st.image("data/timeseries/maps/{city}.png".format(city=selected_city))
+    st.markdown(f"#### CO2 emissions fleet {st.session_state.year}")
+    st.image("data/plots1/og/ts_co2_fleet_byyear/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
 
-    st.markdown("Plots below show the values for the selected city over the years and compare them with the mean values for all cities.")
+    st.markdown("#### CO2 emissions fleet (3 years)")
+    st.image("data/plots1/og/ts_co2_fleet/{city}.png".format(city=selected_city))
 
-    st.markdown("### CO₂ Emissions Over Years")
-    mean_df = df.groupby(['year', 'vehicle'])['co2_pc'].mean().reset_index()
-    mean_df.year = mean_df.year.astype(str)
-    plt.figure(figsize=(10,5))
-    city_df = df[df['city'] == selected_city]
-    sns.barplot(data=city_df, x='year', y='co2_pc', hue='vehicle', edgecolor='black')
-    sns.lineplot(data=mean_df, x='year', y='co2_pc', hue='vehicle', 
-                linewidth=2, linestyle='--', legend=False)
-    for vehicle in mean_df['vehicle'].unique():
-        vehicle_data = mean_df[mean_df['vehicle'] == vehicle]
-        for i in range(len(vehicle_data)):
-            plt.text(x=vehicle_data['year'].iloc[i], y=vehicle_data['co2_pc'].iloc[i],
-                    s=f"mean {vehicle}", ha='center', va='bottom')
+    st.markdown("#### Fuel consumption car")
+    st.image("data/plots1/og/ts_fuel_car/{city}.png".format(city=selected_city))
 
-    plt.title(f'CO₂ Emissions Over Years - {selected_city.title()}')
-    plt.xlabel('Year')
-    plt.ylabel('CO₂ Emissions (tons per person)')
-    plt.tight_layout()
-    st.pyplot(plt)
+    st.markdown("#### Fuel consumption truck")
+    st.image("data/plots1/og/ts_fuel_truck/{city}.png".format(city=selected_city))
 
-    st.markdown("### VKT Over Years")
-    mean_df = df.groupby(['year', 'vehicle'])['vkt_pc'].mean().reset_index()
-    mean_df.year = mean_df.year.astype(str)
-    plt.figure(figsize=(10,5))
-    city_df = df[df['city'] == selected_city]
-    sns.barplot(data=city_df, x='year', y='vkt_pc', hue='vehicle', edgecolor='black')
-    sns.lineplot(data=mean_df, x='year', y='vkt_pc', hue='vehicle', 
-                linewidth=2, linestyle='--', legend=False)
-    for vehicle in mean_df['vehicle'].unique():
-        vehicle_data = mean_df[mean_df['vehicle'] == vehicle]
-        for i in range(len(vehicle_data)):
-            plt.text(x=vehicle_data['year'].iloc[i], y=vehicle_data['vkt_pc'].iloc[i],
-                    s=f"mean {vehicle}", ha='center', va='bottom')
+    st.markdown("#### Vehicle count")
+    st.image("data/plots1/og/ts_count/{city}.png".format(city=selected_city))
 
-    plt.title(f'VKT Over Years - {selected_city.title()}')
-    plt.xlabel('Year')
-    plt.ylabel('VKT (vehicle kilometers traveled per person)')
-    plt.tight_layout()
-    st.pyplot(plt)
+    st.markdown("#### Vehicle speed")
+    st.image("data/plots1/og/ts_speed/{city}.png".format(city=selected_city))
 
-    st.markdown("### Fuel Consumption Over Years")
-    mean_df = df.groupby(['year', 'vehicle'])['consumption_pc'].mean().reset_index()
-    mean_df.year = mean_df.year.astype(str)
-    plt.figure(figsize=(10,5))
-    city_df = df[df['city'] == selected_city]
-    sns.barplot(data=city_df, x='year', y='consumption_pc', hue='vehicle', edgecolor='black')
-    sns.lineplot(data=mean_df, x='year', y='consumption_pc', hue='vehicle', 
-                linewidth=2, linestyle='--', legend=False)
-    for vehicle in mean_df['vehicle'].unique():
-        vehicle_data = mean_df[mean_df['vehicle'] == vehicle]
-        for i in range(len(vehicle_data)):
-            plt.text(x=vehicle_data['year'].iloc[i], y=vehicle_data['consumption_pc'].iloc[i],
-                    s=f"mean {vehicle}", ha='center', va='bottom')
-
-    plt.title(f'Fuel Consumption Over Years - {selected_city.title()}')
-    plt.xlabel('Year')
-    plt.ylabel('Fuel Consumption (tons per person)')
-    plt.tight_layout()
-    st.pyplot(plt)
+    st.markdown("#### Maps")
+    st.image("data/plots1/og/maps/{city}.png".format(city=selected_city))

@@ -22,56 +22,31 @@ st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
 # Load the data
-df = pd.read_csv(f'data/data_annual_streamlit.csv')
-df['vkt_pc'] = df['vkt'] / df['population_2020']
-df['consumption_pc'] = df['consumption'] / df['population_2020']
+df = pd.read_csv(f'data/stats.csv')
 df['co2_pc'] = df['co2'] / df['population_2020']
+
+
 years = [2021, 2022, 2023]
+st.selectbox('Select Year', options=years, index=0, key='year')
 
-st.markdown('''
-* Number of cities: ''' + str(len(df.city.unique())) + '''
-* Years: ''' + str(years) + '''
-* Vehicle types: ''' + str(df.vehicle.unique()) + '''
-''')
+# set default year in session state
+if 'year' not in st.session_state:
+    st.session_state.year = 2021
 
-# remove all rows with city panaji
-df = df[df['city'] != 'jabalpur']
-df = df[df['city'] != 'panaji']
-df = df[df['city'] != 'chandigarh']
+df_filter = df[df['year'] == st.session_state.year]
 
-
-# plot 1
-st.markdown("### Fuel consumption vs CO₂ ")
-plt.figure(figsize=(7, 4))
-sns.scatterplot(data=df, x="consumption_pc", y="co2_pc", hue="vehicle",style="year", s=100,alpha=0.7)
-plt.title("CO₂ vs Fuel Consumption")
-plt.xlabel("Fuel Consumption (tons/person)")
-plt.ylabel("CO₂ per Capita (tons/person)")
+# plot bar chart for CO2 emissions per capita by city
+st.markdown("### CO₂ Emissions per Capita by City")
+plt.figure(figsize=(5, 3))
+df_filter = df_filter.sort_values('co2_pc', ascending=True).tail(10)
+plt.barh(df_filter['city'], df_filter['co2_pc'], color='skyblue')
+plt.xlabel('CO2 Emissions per Capita (kg)')
+plt.title('CO2 Emissions per Capita by City in 2021')
+# remove gaps in y-axis beginning and end
+plt.gca().set_ylim(-0.5, len(df_filter) - 0.5)
+plt.grid(axis='x')
+plt.tight_layout()
 st.pyplot(plt)
 
-# plot 2
-st.markdown("### VKT vs CO₂ ")
-plt.figure(figsize=(7, 4))
-sns.scatterplot(data=df, x="vkt_pc", y="co2_pc", hue="vehicle", s=100,style="year",alpha=0.7)
-plt.title("CO₂ vs VKT")
-plt.xlabel("VKT (km/person)")
-plt.ylabel("CO₂ per Capita (tons/person)")
-st.pyplot(plt)
-
-# plot 3
-st.markdown("### Weighted speed vs CO₂ ")
-plt.figure(figsize=(7, 4))
-sns.scatterplot(data=df, x="weighted_speed", y="co2_pc", hue="vehicle", s=100,style="year",alpha=0.7)
-plt.title("CO₂ vs Weighted Speed")
-plt.xlabel("Weighted Speed (km/h)")
-plt.ylabel("CO₂ per Capita (tons/person)")
-st.pyplot(plt)
-
-# plot 4
-st.markdown("### AADT vs CO₂ ")
-plt.figure(figsize=(7, 4))
-sns.scatterplot(data=df, x="aadt", y="co2_pc", hue="vehicle", s=100,style="year",alpha=0.7)
-plt.title("CO₂ vs AADT")
-plt.xlabel("AADT (vehicles/day)")
-plt.ylabel("CO₂ per Capita (tons/person)")
-st.pyplot(plt)
+# the outliers 
+st.markdown(f"Outliers in CO₂ Emissions per Capita: Chandigarh, Panaji")

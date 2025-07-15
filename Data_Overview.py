@@ -118,6 +118,10 @@ if selected_points is not None and len(selected_points['selection']['points']) >
     st.markdown(f"#### CO2 emissions {st.session_state.year}")
     st.image("data/plots1/og/ts_co2_all_byyear/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
 
+    if st.session_state.year == 2021 or st.session_state.year == 2022:
+        st.markdown(f"#### Google Mobility {st.session_state.year}")
+        st.image("data/google_mobility/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
+
     st.markdown("#### CO2 emissions (3 years)")
     st.image("data/plots1/og/ts_co2_all/{city}.png".format(city=selected_city))
 

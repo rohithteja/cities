@@ -42,8 +42,6 @@ st.markdown('''
 * Vehicle types: ''' + str(df.vehicle.unique()) + '''
 ''')
 
-
-
 df["co2_per_gdp"] = df["co2"] / df["gdp_billions"]    # tonnes/billions usd
 df["gdp_per_fuel"] = df["gdp_billions"] / df["consumption"] # billions usd/tonnes
 df["fuel_per_km"] = df["consumption"] / df["vkt"]      # tonnes/km

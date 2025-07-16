@@ -337,9 +337,6 @@ axes[1].set_title('Without Outliers')
 plt.tight_layout()
 st.pyplot(fig)
 
-
-
-
 # oe vs gdp_billions
 st.markdown("### Orientation Entropy vs GDP PPP")
 fig, axes = plt.subplots(1, 2, figsize=(10, 5))

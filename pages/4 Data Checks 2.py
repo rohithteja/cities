@@ -23,6 +23,12 @@ st.markdown("--------")
 
 # Load the data
 df = pd.read_csv(f'data/data_annual_streamlit.csv')
+
+# remove outlier cities
+df = df[df['city'] != 'jabalpur']
+df = df[df['city'] != 'panaji']
+df = df[df['city'] != 'chandigarh']
+
 df['vkt_pc'] = df['vkt'] / df['population_2020']
 df['consumption_pc'] = df['consumption'] / df['population_2020']
 df['co2_pc'] = df['co2'] / df['population_2020']
@@ -36,10 +42,7 @@ st.markdown('''
 * Vehicle types: ''' + str(df.vehicle.unique()) + '''
 ''')
 
-# remove all rows with city panaji
-df = df[df['city'] != 'jabalpur']
-df = df[df['city'] != 'panaji']
-df = df[df['city'] != 'chandigarh']
+
 
 df["co2_per_gdp"] = df["co2"] / df["gdp_billions"]    # tonnes/billions usd
 df["gdp_per_fuel"] = df["gdp_billions"] / df["consumption"] # billions usd/tonnes

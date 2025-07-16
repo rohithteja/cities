@@ -23,6 +23,12 @@ st.markdown("--------")
 
 # Load the data
 df = pd.read_csv(f'data/data_annual_streamlit.csv')
+
+# remove all rows with city panaji
+df = df[df['city'] != 'jabalpur']
+df = df[df['city'] != 'panaji']
+df = df[df['city'] != 'chandigarh']
+
 df['vkt_pc'] = df['vkt'] / df['population_2020']
 df['consumption_pc'] = df['consumption'] / df['population_2020']
 df['co2_pc'] = df['co2'] / df['population_2020']
@@ -33,12 +39,6 @@ st.markdown('''
 * Years: ''' + str(years) + '''
 * Vehicle types: ''' + str(df.vehicle.unique()) + '''
 ''')
-
-# remove all rows with city panaji
-df = df[df['city'] != 'jabalpur']
-df = df[df['city'] != 'panaji']
-df = df[df['city'] != 'chandigarh']
-
 
 # Helper function to plot for car and truck side by side
 def plot_car_truck(df, x, y, xlabel, ylabel, title):

@@ -28,6 +28,7 @@ df = df[df['city'] != 'jabalpur']
 
 df_stats = pd.read_csv(f'data/stats.csv')
 df_stats['co2_pc'] = df_stats['co2'] / df_stats['population_2020']
+df_stats['co2_vkt'] = df_stats['co2'] / df_stats['vkt']
 df_stats = df_stats[df_stats['city'] != 'jabalpur']
 
 # merge the two dataframes on city and year
@@ -70,9 +71,24 @@ axes[1].legend(title='Year')
 plt.tight_layout()
 st.pyplot(fig)
 
+# gini bc vs co2_vkt
+st.markdown("### Gini BC vs CO₂ Vehicle Kilometers Traveled (VKT)")
+fig, axes = plt.subplots(1, 1, figsize=(6, 5))
+# First subplot: with outliers
+sns.scatterplot(
+  data=df,
+  x='gini_bc', y='co2_vkt', hue="year", s=100, alpha=0.7,
+  palette="Set1", ax=axes
+)
+axes.set_xlabel('Gini BC')
+axes.set_ylabel('CO₂ /vkt(tons/km)')
+axes.legend(title='Year')
+
+plt.tight_layout()
+st.pyplot(fig)
+
 # gini bc vs co2_pc with and without outliers
 st.markdown("### Gini BC vs CO₂ per Capita")
-
 fig, axes = plt.subplots(1, 2, figsize=(10, 5))
 # First subplot: with outliers
 sns.scatterplot(

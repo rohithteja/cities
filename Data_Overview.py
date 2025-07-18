@@ -6,8 +6,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 st.sidebar.title('Filters')
+st.set_page_config(
+    page_title="Indian Cities Project",
+    page_icon=":city_sunset:",
+    layout="centered",
+    initial_sidebar_state="expanded"
+)
 
-st.markdown("# Indian Cities Project")
+st.markdown("# :city_sunset: Indian Cities Project")
 st.markdown("--------")
 
 cities = ['kohima', 'panaji', 'itanagar', 'gangtok', 'shilong', 'nalgonda', 'shimla', 'imphal', 'rourkela', 'siliguri',

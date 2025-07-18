@@ -103,10 +103,13 @@ fig.update_layout(coloraxis_colorbar=dict(
     tickfont=dict(size=12)
 ))
 
-selected_points = st.plotly_chart(fig, use_container_width=True,on_select='rerun')
+selected_points = st.plotly_chart(fig, use_container_width=True)
 
-if selected_points is not None and len(selected_points['selection']['points']) > 0:
-    selected_city = selected_points['selection']['points'][0]['customdata'][0]
+# Streamlit does not support click selection on plotly charts directly.
+# If you want to show stats for a specific city, use a selectbox:
+selected_city = st.selectbox("Select a city to view stats", df_filter['city'].unique())
+
+if selected_city:
     # empty space to avoid overlap with the map
     st.markdown("<br>" * 2, unsafe_allow_html=True)
     st.markdown(f"### 📍 Stats for {selected_city.title()}")

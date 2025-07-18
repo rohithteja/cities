@@ -120,6 +120,8 @@ if selected_points is not None and len(selected_points['selection']['points']) >
 
     if st.session_state.year == 2021 or st.session_state.year == 2022:
         st.markdown(f"#### Google Mobility {st.session_state.year}")
+        # explanation for the image
+        st.markdown("It shows the change in visits to places like transit stations, workplaces, and residential areas compared to a baseline period (in %)")
         st.image("data/google_mobility/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
 
     st.markdown("#### CO2 emissions (3 years)")

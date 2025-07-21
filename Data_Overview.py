@@ -64,8 +64,9 @@ st.markdown('''
 median_co2_pc = np.mean(df_filter["co2_pc"])
 
 # Scale population for better size visibility
-pop_scaled = np.log1p(df_filter['population_2020'])
-pop_scaled = 5 + 10 * (pop_scaled - pop_scaled.min()) / (pop_scaled.max() - pop_scaled.min())
+# pop_scaled = np.log1p(df_filter['population_2020'])
+pop_scaled = np.sqrt(df_filter['population_2020'])
+pop_scaled = 4 + 10 * (pop_scaled - pop_scaled.min()) / (pop_scaled.max() - pop_scaled.min())
 df_filter['pop_scaled'] = pop_scaled
 
 fig = px.scatter_map(

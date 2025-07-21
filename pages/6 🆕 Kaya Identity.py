@@ -59,6 +59,7 @@ st.markdown("### CO2 Congestion per VKT")
 st.image(f'data/kaya_identity/{select_year}/co2_congestion_per_vkt.png')
 
 st.markdown("### Relationships between the drivers of CO₂ emissions")
+st.markdown("Top cities with highest population are annotated.")
 st.image(f'data/kaya_identity/scatter.png')
 
 

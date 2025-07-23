@@ -38,7 +38,7 @@ df_filter = df[df['year'] == st.session_state.year]
 # plot bar chart for CO2 emissions per capita by city
 st.markdown("### CO₂ Emissions per Capita by City")
 plt.figure(figsize=(5, 3))
-df_filter = df_filter.sort_values('co2_pc', ascending=True).tail(10)
+df_filter = df_filter.sort_values('co2_pc', ascending=False).head(10)
 plt.barh(df_filter['city'], df_filter['co2_pc'], color='skyblue')
 plt.xlabel('CO2 Emissions per Capita (kg)')
 plt.title('CO2 Emissions per Capita by City in 2021')
@@ -50,3 +50,6 @@ st.pyplot(plt)
 
 # the outliers 
 st.markdown(f"Outliers in CO₂ Emissions per Capita: Chandigarh, Panaji")
+
+st.markdown("Chandigarh annual emissions are comparable with CM cities and EDGAR values.")
+st.markdown("There are some news articles on Panaji saying it has emissions 3 times higher than national average. (have to check)")

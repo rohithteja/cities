@@ -44,3 +44,6 @@ st.image('data/gini/others/1.png')
 st.image('data/gini/others/2.png')
 st.image('data/gini/others/3.png')
 st.image('data/gini/others/4.png')
+
+st.markdown("### Orientation of the road network")
+st.image('data/oe.png')

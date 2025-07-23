@@ -68,7 +68,7 @@ st.markdown(f"Year = {select_year}")
 st.image(f'data/plots1/og/cumulative/{select_year}/all_100_cities_highlighted.png')
 
 
-st.markdown("### Cumulative CO₂ Congestion Emission Contribution by Road Type")
+st.markdown("### Cumulative CO₂ Congestion Emission Share by Road Type")
 st.image(f'data/plots1/og/congestion_contribution_fc.png')
 
 df_fc_ratio = pd.read_csv(f'data/data_final/df_fc_ratio.csv')

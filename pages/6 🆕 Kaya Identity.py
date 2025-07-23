@@ -62,4 +62,8 @@ st.markdown("### Relationships between the drivers of CO₂ emissions")
 st.markdown("Some cities with highest population are annotated.")
 st.image(f'data/kaya_identity/scatter.png')
 
+# cumulative CO2 emissions
+st.markdown("### Cumulative CO₂ Emissions")
+st.image(f'data/plots1/og/cumulative.png')
+
 

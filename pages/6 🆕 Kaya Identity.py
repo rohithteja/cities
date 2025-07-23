@@ -64,6 +64,6 @@ st.image(f'data/kaya_identity/scatter.png')
 
 # cumulative CO2 emissions
 st.markdown("### Cumulative CO₂ Emissions")
-st.image(f'data/plots1/og/cumulative.png')
+st.image(f'data/plots1/og/cumulative.png') 
 
 

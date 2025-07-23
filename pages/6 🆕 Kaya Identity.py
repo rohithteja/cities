@@ -64,6 +64,24 @@ st.image(f'data/kaya_identity/scatter.png')
 
 # cumulative CO2 emissions
 st.markdown("### Cumulative CO₂ Emissions")
-st.image(f'data/plots1/og/cumulative.png') 
+st.markdown(f"Year = {select_year}")
+st.image(f'data/plots1/og/cumulative/{select_year}/all_100_cities_highlighted.png')
 
 
+st.markdown("### Cumulative CO₂ Congestion Emission Contribution by Road Type")
+st.image(f'data/plots1/og/congestion_contribution_fc.png')
+
+df_fc_ratio = pd.read_csv(f'data/data_final/df_fc_ratio.csv')
+
+# explain congestion ratio
+st.markdown("### Congestion Ratio")
+st.markdown("Congestion ratio = ratio of CO₂ congestion emissions in minor roads to major roads.")
+st.markdown("Major roads (1,2,3 functional classes), Minor roads (4,5 functional classes).")
+st.markdown("As population increases, the contribution of CO2 congestion emission from minor roads decreases (mainly for bigger cities)")
+x = 'population_2020'
+y = 'minor_major_ratio'
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df_fc_ratio,x=x, y=y, s=100, alpha=0.7)
+plt.xlabel('Population')
+plt.ylabel('CO2 Congestion ratio (Minor/Major roads)')
+st.pyplot(plt)

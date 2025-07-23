@@ -80,8 +80,21 @@ st.markdown("Major roads (1,2,3 functional classes), Minor roads (4,5 functional
 st.markdown("As population increases, the contribution of CO2 congestion emission from minor roads decreases (mainly for bigger cities)")
 x = 'population_2020'
 y = 'minor_major_ratio'
-plt.figure(figsize=(10, 6))
-sns.scatterplot(data=df_fc_ratio,x=x, y=y, s=100, alpha=0.7)
-plt.xlabel('Population')
-plt.ylabel('CO2 Congestion ratio (Minor/Major roads)')
-st.pyplot(plt)
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+# Linear scale
+sns.scatterplot(data=df_fc_ratio, x=x, y=y, s=100, alpha=0.7, ax=axes[0])
+axes[0].set_xlabel('Population')
+axes[0].set_ylabel('CO2 Congestion ratio (Minor/Major roads)')
+axes[0].set_title('Linear Scale')
+
+# Log scale
+sns.scatterplot(data=df_fc_ratio, x=x, y=y, s=100, alpha=0.7, ax=axes[1])
+axes[1].set_xscale('log')
+axes[1].set_xlabel('Population (log scale)')
+axes[1].set_ylabel('CO2 Congestion ratio (Minor/Major roads)')
+axes[1].set_title('Log Scale')
+
+plt.tight_layout()
+st.pyplot(fig)

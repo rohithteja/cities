@@ -31,6 +31,7 @@ cities = ['kohima', 'panaji', 'itanagar', 'gangtok', 'shilong', 'nalgonda', 'shi
 # Load the data
 df = pd.read_csv(f'data/stats.csv')
 
+
 types = ['All Cities', 'Top 15 Cities', 'Bottom 15 Cities']
 years = [2021, 2022, 2023]
 st.selectbox('Select Year', options=years, index=0, key='year')

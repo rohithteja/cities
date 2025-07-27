@@ -19,6 +19,21 @@ df_gini_co2 = df_gini_co2[~df_gini_co2['city'].isin(['panaji', 'chandigarh','jab
 st.markdown("# Indian Cities Project")
 st.markdown("--------")
 
+st.markdown("### Rho comparisons")
+st.markdown("""
+- **Rho_i**: Density of intersections (nodes with degree >=3) = len(intersections) / area 
+- **Rho_r**: Density of roads = len(roads) / area
+- **Rho_ratio**: Ratio of Rho_r to Rho_i
+""")
+st.image('data/gini/others/1.png')
+st.image('data/gini/others/2.png')
+st.image('data/gini/others/3.png')
+st.image('data/gini/others/4.png')
+
+st.image('data/gini/co2_comparison/5.png')
+
+
+
 st.markdown("### Gini Coefficient (BC) comparisons")
 st.markdown("Gini BC is computed for the edge betweenness centrality of the road network.")
 st.markdown("The CO2 values are for all vehicles (car + truck)")
@@ -34,16 +49,6 @@ st.image('data/gini/co2_comparison/2.png')
 st.image('data/gini/co2_comparison/3.png')
 st.image('data/gini/co2_comparison/4.png')
 
-st.markdown("### Rho comparisons")
-st.markdown("""
-- **Rho_i**: Density of intersections (nodes with degree >=3) = len(intersections) / area 
-- **Rho_r**: Density of roads = len(roads) / area
-- **Rho_ratio**: Ratio of Rho_r to Rho_i
-""")
-st.image('data/gini/others/1.png')
-st.image('data/gini/others/2.png')
-st.image('data/gini/others/3.png')
-st.image('data/gini/others/4.png')
 
 st.markdown("### Orientation of the road network")
 st.image('data/oe.png')

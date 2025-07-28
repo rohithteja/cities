@@ -57,7 +57,8 @@ st.markdown('''
 * Number of cities: ''' + str(len(df_filter.city.unique())) + '''
 * Size of markers = population of city
 * Color of markers = CO₂ emissions per capita (in tons)
-* Click on a marker to see more details (below the map)
+* Click on a marker to see more details (scroll below the interative map for plots and stats)
+* Double click on the interactive map to reset the selection or click on other markers to see their details
 * Colorbar midpoint is set to the median CO₂ emissions per capita
 ''')
 

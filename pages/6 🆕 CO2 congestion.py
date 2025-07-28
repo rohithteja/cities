@@ -4,7 +4,6 @@ import numpy as np
 import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
-import joblib
 
 cities = ['kohima', 'panaji', 'itanagar', 'gangtok', 'shilong', 'nalgonda', 'shimla', 'imphal', 'rourkela', 'siliguri',
   'durgapur', 'dewas', 'aizawl', 'haldia', 'sagar', 'jabalpur', 'thoothukkudi', 'shivamogga', 'kurnool', 
@@ -51,9 +50,6 @@ st.markdown("Goal: Identify which city-level factors influence the share of COâ‚
 st.markdown("Dependent Variable: Share of COâ‚‚ congestion emissions from class 5 roads")
 st.markdown("Independent Variables (log transformed): Population, GDP, Urban area, VKT by public transport, Road density (Rho_r), Intersection density (Rho_i), Road-to-intersection ratio (Rho_ratio), Total road length, Mean speed, Weighted speed, Gini BC, Orientation entropy (Oe).")
 
-# # load model pkl
-# model = joblib.load('data/congestion_fc/model.pkl')
-# st.write(model.summary())
 
 model_results = '''                            OLS Regression Results                            
 ==============================================================================

@@ -23,6 +23,7 @@ st.markdown("--------")
 
 # Load the data
 st.markdown("## Validation Data Overview")
+st.markdown("We validate our data against two sources: Carbonmonitor and EDGAR. Carbonmonitor uses FUA boundaries which could be bigger than our city boundaries.")
 st.markdown("Carbonmonitor Cities: 36 Indian Cities (2021)")
 st.markdown("EDGAR Cities: 83 Indian Cities (2021, 2022, 2023) - Some cities are too small to compute emissions")
 st.image('data/validation.png', caption='Validation Data Overview')

@@ -95,24 +95,24 @@ st.code(model_results, language='text')
 st.markdown("#### OLS Regression Feature Importance")
 st.image('data/congestion_fc/5.png')
 
-st.markdown("### Interpretation")
+st.markdown("#### Interpretation")
 
 st.markdown("""1. Rho_ratio (road-to-intersection ratio) (Coef = +2.68, p = 0.004)
             - More roads per intersection (i.e., lower intersection density) = higher class 5 road CO₂ congestion shares.
-            - Could indicate poorly connected networks where traffic is forced onto fewer minor links, causing congestion.
+              Could indicate poorly connected networks, causing congestion.
             """)
 
 st.markdown("""2. Weighted speed (by count) (Coef = -1.86, p = 0)
             - Higher weighted speeds = lower congestion CO₂ shares on class 5 roads.
-            - Higher speeds likely mean smoother traffic and lower emissions on minor roads.
+              Higher weighted speeds = smoother traffic and lower emissions on minor roads.
             """)
 st.markdown("""3. Mean speed (Coef = +1.33, p = 0)
             - Higher mean speeds = higher congestion-related CO₂ share on minor roads.
-            - Mean speed can be skewed by some fast roads, could be spillage from major roads.
+              Mean speed can be skewed by some fast roads, could be spillage from major roads to few minor roads.
             """)
 st.markdown("""4. Gini BC (Coef = -1.30, p = 0.034)
             - Heterogeneous traffic distribution (high Gini) = lower emissions from minor roads.
-            - Traffic could be more focused on major roads, reducing minor road congestion.
+              Traffic could be more focused on major roads, reducing minor road congestion.
             """)
 
 st.markdown("""6. Rho_r (road density) (Coef = -1.03, p = 0.038)
@@ -125,5 +125,5 @@ st.markdown("""5. Rho_i (intersection density) (Coef = +0.40, p = 0.005)
 
 st.markdown("""8. Population (Coef = -0.10, p = 0)
             - Larger cities (by population) = lower minor road congestion CO₂ share.
-            - Better road hierarchies and infrastructure.
+              Better road hierarchies and infrastructure?
             """)

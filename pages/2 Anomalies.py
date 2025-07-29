@@ -49,7 +49,7 @@ plt.tight_layout()
 st.pyplot(plt)
 
 # the outliers 
-st.markdown(f"Outliers in CO₂ Emissions per Capita: Chandigarh, Panaji")
+st.markdown(f"Anomalies in CO₂ Emissions per Capita: Chandigarh, Panaji")
 
 st.markdown("Chandigarh annual emissions are comparable with CM cities and EDGAR values.")
 st.markdown("There are some news articles on Panaji saying it has emissions 3 times higher than national average. (have to check)")

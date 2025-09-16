@@ -137,5 +137,6 @@ if selected_points is not None and len(selected_points['selection']['points']) >
     st.markdown("#### Fuel consumption truck")
     st.image("data/plots2_fleet_expansion/ts_fuel_truck/{city}.png".format(city=selected_city))
 
+
     st.markdown("#### Maps")
     st.image("data/plots2_fleet_expansion/fleet_maps/{city}.png".format(city=selected_city))

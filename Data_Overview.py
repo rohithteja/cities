@@ -33,16 +33,11 @@ df = pd.read_csv(f'data/stats.csv')
 
 
 types = ['All Cities', 'Top 15 Cities', 'Bottom 15 Cities']
-years = [2021, 2022, 2023]
-st.selectbox('Select Year', options=years, index=0, key='year')
 # filter based on city selection
 st.selectbox('Select Type', options=types, index=0, key='type')
 
-# set default year in session state
-if 'year' not in st.session_state:
-    st.session_state.year = 2021
 
-df = df[df['year'] == st.session_state.year]
+df = df[df['year'] == 2021]
 if 'type' not in st.session_state:
     st.session_state.type = 'All Cities'
 if st.session_state.type == 'All Cities':
@@ -95,12 +90,12 @@ fig.update_traces(
     hovertemplate="<b>%{customdata[0]}</b><br>" +
                   "CO₂ Emissions: %{marker.color:.2f} tons per person<br>" +
                   "Population: %{customdata[1]:,}<br>" +
-                  f"Year: {st.session_state.year}<extra></extra>"
+                  f"Year: {2021}<extra></extra>"
 )
 
 # Title and margins
 fig.update_layout(
-    title=f"Year: {st.session_state.year}",
+    title=f"Year: {2021}",
     margin={"r": 0, "t": 40, "l": 0, "b": 0}
 )
  
@@ -124,35 +119,23 @@ if selected_points is not None and len(selected_points['selection']['points']) >
     • Population: {city_data['population_2020'].values[0]:,}
     """)
 
-    st.markdown(f"#### CO2 emissions {st.session_state.year}")
-    st.image("data/plots1/og/ts_co2_all_byyear/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
-
-    if st.session_state.year == 2021 or st.session_state.year == 2022:
-        st.markdown(f"#### Google Mobility {st.session_state.year}")
-        # explanation for the image
-        st.markdown("It shows the change in visits to places like transit stations, workplaces, and residential areas compared to a baseline period (in %)")
-        st.image("data/google_mobility/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
+    # if st.session_state.year == 2021 or st.session_state.year == 2022:
+    #     st.markdown(f"#### Google Mobility {st.session_state.year}")
+    #     # explanation for the image
+    #     st.markdown("It shows the change in visits to places like transit stations, workplaces, and residential areas compared to a baseline period (in %)")
+    #     st.image("data/google_mobility/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
 
     st.markdown("#### CO2 emissions (3 years)")
-    st.image("data/plots1/og/ts_co2_all/{city}.png".format(city=selected_city))
-
-    st.markdown(f"#### CO2 emissions fleet {st.session_state.year}")
-    st.image("data/plots1/og/ts_co2_fleet_byyear/{year}/{city}.png".format(city=selected_city, year=st.session_state.year))
+    st.image("data/plots2_fleet_expansion/ts_co2_all/{city}.png".format(city=selected_city))
 
     st.markdown("#### CO2 emissions fleet (3 years)")
-    st.image("data/plots1/og/ts_co2_fleet/{city}.png".format(city=selected_city))
+    st.image("data/plots2_fleet_expansion/ts_co2_fleet/{city}.png".format(city=selected_city))
 
     st.markdown("#### Fuel consumption car")
-    st.image("data/plots1/og/ts_fuel_car/{city}.png".format(city=selected_city))
+    st.image("data/plots2_fleet_expansion/ts_fuel_car/{city}.png".format(city=selected_city))
 
     st.markdown("#### Fuel consumption truck")
-    st.image("data/plots1/og/ts_fuel_truck/{city}.png".format(city=selected_city))
-
-    st.markdown("#### Vehicle count")
-    st.image("data/plots1/og/ts_count/{city}.png".format(city=selected_city))
-
-    st.markdown("#### Vehicle speed")
-    st.image("data/plots1/og/ts_speed/{city}.png".format(city=selected_city))
+    st.image("data/plots2_fleet_expansion/ts_fuel_truck/{city}.png".format(city=selected_city))
 
     st.markdown("#### Maps")
-    st.image("data/plots1/og/maps/{city}.png".format(city=selected_city))
+    st.image("data/plots2_fleet_expansion/fleet_maps/{city}.png".format(city=selected_city))

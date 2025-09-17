@@ -96,5 +96,5 @@ st.image(f'data/kaya_identity/scatter.png')
 # axes[1].set_ylabel('CO2 Congestion ratio (Minor/Major roads)')
 # axes[1].set_title('Log Scale')
 
-plt.tight_layout()
-st.pyplot(fig)
+# plt.tight_layout()
+# st.pyplot(fig)

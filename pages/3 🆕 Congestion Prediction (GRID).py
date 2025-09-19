@@ -110,7 +110,7 @@ def show_ml_model_page():
         
     
 
-    
+
 # Main function to run the page
 if __name__ == "__main__":
     show_ml_model_page()

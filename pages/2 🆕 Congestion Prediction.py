@@ -114,6 +114,7 @@ def show_ml_model_page():
             st.subheader("Partial Dependence")
             st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")
     
+    
 # Main function to run the page
 if __name__ == "__main__":
     show_ml_model_page()

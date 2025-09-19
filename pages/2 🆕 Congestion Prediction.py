@@ -42,11 +42,11 @@ def show_ml_model_page():
         st.subheader("Methodology")
         st.write("""
         - Random Forest Regression
-        - **Target**: CO2 congestion emissions (per capita and per vkt)
+        - **Target**: CO2 congestion emissions (per capita, per vkt, % of total emissions)
         - **Predictors**: 16 urban & transport features
-        - 80/20 train-test split
         - K-fold cross-validation (5 folds)
         - Metrics are reported on the test set with standard deviation from CV
+        - Metrics: R², RRMSE (Relative Root Mean Squared Error)
         """)
         
       
@@ -63,7 +63,14 @@ def show_ml_model_page():
     
     # Model Results Section
     st.header("Analysis")
-    st.markdown("Predictors related to the target variable were removed to avoid data leakage.")
+    st.markdown("""
+                3 types of target variables were modeled: 
+                - CO2 Congestion per capita
+                - CO2 Congestion per vkt
+                - CO2 Congestion as a percentage of total emissions.""")
+    st.markdown("(Predictors related to the target variable were removed to avoid data leakage." \
+    " So there are minor changes to predictor list for each target variable.)")
+    st.divider()
     metrics_pc = pd.read_csv("data/ml_model/annual_pc/metrics.csv")
     metrics_vkt = pd.read_csv("data/ml_model/annual_vkt/metrics.csv")
     metrics_percent = pd.read_csv("data/ml_model/annual_percent/metrics.csv")
@@ -74,7 +81,8 @@ def show_ml_model_page():
     with col1:
         st.markdown("###### Target: CO2 Congestion per capita (tons/person)")
         st.markdown("Metrics on test set")
-        st.dataframe(metrics_pc, hide_index=True)
+        cols_to_show = list(metrics_pc.columns[:2]) + list(metrics_pc.columns[-2:])
+        st.dataframe(metrics_pc[cols_to_show], hide_index=True)
         # Display SHAP importance plot if available
         shap_importance_path = "data/ml_model/annual_pc/shap_bar_plot.png"
         if os.path.exists(shap_importance_path):
@@ -101,7 +109,8 @@ def show_ml_model_page():
     with col2:
         st.markdown("###### Target: CO2 Congestion per vkt (tons/km)")
         st.markdown("Metrics on test set")
-        st.dataframe(metrics_vkt, hide_index=True)
+        cols_to_show = list(metrics_vkt.columns[:2]) + list(metrics_vkt.columns[-2:])
+        st.dataframe(metrics_vkt[cols_to_show], hide_index=True)
         # Display SHAP importance plot if available
         shap_importance_path = "data/ml_model/annual_vkt/shap_bar_plot.png"
         if os.path.exists(shap_importance_path):
@@ -127,7 +136,8 @@ def show_ml_model_page():
     with col3:
         st.markdown("###### Target: CO2 Congestion as % of total emissions")
         st.markdown("Metrics on test set")
-        st.dataframe(metrics_percent, hide_index=True)
+        cols_to_show = list(metrics_percent.columns[:2]) + list(metrics_percent.columns[-2:])
+        st.dataframe(metrics_percent[cols_to_show], hide_index=True)
         # Display SHAP importance plot if available
         shap_importance_path = "data/ml_model/annual_percent/shap_bar_plot.png"
         if os.path.exists(shap_importance_path):

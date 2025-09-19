@@ -9,7 +9,8 @@ def show_ml_model_page():
     """
     Streamlit page explaining the CO2 Congestion Prediction ML Model
     """
-    
+    st.set_page_config(layout="wide")
+
     st.title("CO2 Congestion Prediction (GRID)")
     st.markdown("Predicting CO2 congestion emissions at a 500m grid level for Mumbai, Delhi and Hyderabad")
     st.markdown("---")
@@ -31,16 +32,19 @@ def show_ml_model_page():
         - **Cities**: Mumbai, Delhi, Hyderabad (grids of 500m x 500m)
         - **Years**: 2021-2023  
         - **Vehicle Types**: 2W, 3W, LMV, HDV
-        - 48840 data points
+        - ~15k-60k data points
         """)
     
     with col2:
         st.subheader("Methodology")
         st.write("""
         - Random Forest Regression
-        - **Target**: CO2 congestion emissions (per capita and per vkt)
-        - **Predictors**: 30 urban & transport gridded features
-        - 80/20 train-test split
+        - **Target**: CO2 congestion emissions (per capita, per vkt, % of total emissions)
+        - **Predictors**: ~30 urban & transport gridded features
+        - K-fold cross-validation (5 folds)
+        - Metrics are reported on the test set with standard deviation from CV
+        - Metrics: R², RRMSE (Relative Root Mean Squared Error)
+        - Note: Values of RRMSE >1 is due to skewed distribution of target variable
         """)
         
     
@@ -58,94 +62,120 @@ def show_ml_model_page():
     st.markdown("---")
     
 
-    # select city
-    city = st.selectbox("Select a city", ["Mumbai", "Delhi", "Hyderabad"])
-    # Model Results Section
-    st.header("SHAP Analysis")
-    metrics_pc = pd.read_csv(f"data/ml_model/grid_pc/{city.lower()}/metrics.csv")
-    metrics_vkt = pd.read_csv(f"data/ml_model/grid_vkt/{city.lower()}/metrics.csv")
-    metrics_percent = pd.read_csv(f"data/ml_model/grid_percent/{city.lower()}/metrics.csv")
+    # Analysis Selection
+    st.header("Analysis")
+    st.markdown("""
+                3 types of target variables were modeled: 
+                - CO2 Congestion per capita
+                - CO2 Congestion per vkt
+                - CO2 Congestion as a percentage of total emissions.""")
+    st.markdown("(Predictors related to the target variable were removed to avoid data leakage." \
+    " So there are minor changes to predictor list for each target variable.)")
+    st.divider()
+    # Create selection options
+    analysis_type = st.radio(
+        "Choose analysis type:",
+        ["Compare 3 targets for one city", "Compare 3 cities for one target"],
+        horizontal=True
+    )
 
-    # Create two columns for per capita and per vkt analysis
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown("##### Target: CO2 Congestion Emissions per capita (tons/person)")
-        st.dataframe(metrics_pc, hide_index=True)
-        # Display SHAP importance plot if available
-        shap_importance_path = f"data/ml_model/grid_pc/{city.lower()}/shap_bar_plot.png"
-        if os.path.exists(shap_importance_path):
-            st.subheader(" Feature Importance")
-            st.image(shap_importance_path, caption="Feature importance based on SHAP values")
-
-        shap_beeswarm_path = f"data/ml_model/grid_pc/{city.lower()}/shap_beeswarm_plot.png"
-        if os.path.exists(shap_beeswarm_path):
-            st.subheader(" Beeswarm Plot")
-            st.image(shap_beeswarm_path, caption="Feature impact on individual predictions")
-            
-        # Display partial dependence plots if available
-        partial_dep_path = f"data/ml_model/grid_pc/{city.lower()}/sklearn_partial_dependence_plots.png"
-        if os.path.exists(partial_dep_path):
-            st.subheader("Partial Dependence")
-            st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")
-
-        # Display shap dependence plots if available
-        shap_dep_path = f"data/ml_model/grid_pc/{city.lower()}/shap_dependency_plots.png"
-        if os.path.exists(shap_dep_path):
-            st.subheader("SHAP Dependence")
-            st.image(shap_dep_path, caption="Feature impact on individual predictions")
-    
-    with col2:
-        st.markdown("##### Target: CO2 Congestion Emissions per vkt (tons/km)")
-        st.dataframe(metrics_vkt, hide_index=True)
-        # Display SHAP importance plot if available
-        shap_importance_path = f"data/ml_model/grid_vkt/{city.lower()}/shap_bar_plot.png"
-        if os.path.exists(shap_importance_path):
-            st.subheader("Feature Importance")
-            st.image(shap_importance_path, caption="Feature importance based on SHAP values")
-
-        shap_beeswarm_path = f"data/ml_model/grid_vkt/{city.lower()}/shap_beeswarm_plot.png"
-        if os.path.exists(shap_beeswarm_path):
-            st.subheader(" Beeswarm Plot")
-            st.image(shap_beeswarm_path, caption="Feature impact on individual predictions")
-            
-        # Display partial dependence plots if available
-        partial_dep_path = f"data/ml_model/grid_vkt/{city.lower()}/sklearn_partial_dependence_plots.png"
-        if os.path.exists(partial_dep_path):
-            st.subheader("Partial Dependence")
-            st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")
-
-        # Display shap dependence plots if available
-        shap_dep_path = f"data/ml_model/grid_vkt/{city.lower()}/shap_dependency_plots.png"
-        if os.path.exists(shap_dep_path):
-            st.subheader("SHAP Dependence")
-            st.image(shap_dep_path, caption="Feature impact on individual predictions")
+    if analysis_type == "Compare 3 targets for one city":
+        # Select city
+        city = st.selectbox("Select a city", ["Mumbai", "Delhi", "Hyderabad"])
         
-    with col3:
-        st.markdown("##### Target: CO2 Congestion Emissions as % of total emissions")
-        st.dataframe(metrics_percent, hide_index=True)
-        # Display SHAP importance plot if available
-        shap_importance_path = f"data/ml_model/grid_percent/{city.lower()}/shap_bar_plot.png"
-        if os.path.exists(shap_importance_path):
-            st.subheader("Feature Importance")
-            st.image(shap_importance_path, caption="Feature importance based on SHAP values")
+        # Load metrics for all targets
+        metrics_pc = pd.read_csv(f"data/ml_model/grid_pc/{city.lower()}/metrics.csv")
+        metrics_vkt = pd.read_csv(f"data/ml_model/grid_vkt/{city.lower()}/metrics.csv")
+        metrics_percent = pd.read_csv(f"data/ml_model/grid_percent/{city.lower()}/metrics.csv")
+        
+        st.subheader(f"Model Performance for {city}")
+        
+        # Create three columns for different targets
+        col1, col2, col3 = st.columns(3)
+        
+        targets = [
+            ("pc", "CO2 Congestion per capita (tons/person)", metrics_pc),
+            ("vkt", "CO2 Congestion per vkt (tons/km)", metrics_vkt),
+            ("percent", "CO2 Congestion as % of total emissions", metrics_percent)
+        ]
+        
+        columns = [col1, col2, col3]
+        
+        for i, (target_key, target_name, metrics_df) in enumerate(targets):
+            with columns[i]:
+                st.markdown(f"###### Target: {target_name}")
+                # Select first two and last two columns
+                cols_to_show = list(metrics_df.columns[:2]) + list(metrics_df.columns[-2:])
+                st.dataframe(metrics_df[cols_to_show], hide_index=True)
+                
+                # Display plots for this target
+                base_path = f"data/ml_model/grid_{target_key}/{city.lower()}"
+                
+                plots = [
+                    ("shap_bar_plot.png", "Feature Importance", "Feature importance based on SHAP values"),
+                    ("shap_beeswarm_plot.png", "Beeswarm Plot", "Feature impact on individual predictions"),
+                    ("sklearn_partial_dependence_plots.png", "Partial Dependence", "How individual features affect CO2 congestion predictions"),
+                    ("shap_dependency_plots.png", "SHAP Dependence", "Feature impact on individual predictions")
+                ]
+                
+                for plot_file, plot_title, plot_caption in plots:
+                    plot_path = f"{base_path}/{plot_file}"
+                    if os.path.exists(plot_path):
+                        st.subheader(plot_title)
+                        st.image(plot_path, caption=plot_caption)
 
-        shap_beeswarm_path = f"data/ml_model/grid_percent/{city.lower()}/shap_beeswarm_plot.png"
-        if os.path.exists(shap_beeswarm_path):
-            st.subheader(" Beeswarm Plot")
-            st.image(shap_beeswarm_path, caption="Feature impact on individual predictions")
-            
-        # Display partial dependence plots if available
-        partial_dep_path = f"data/ml_model/grid_percent/{city.lower()}/sklearn_partial_dependence_plots.png"
-        if os.path.exists(partial_dep_path):
-            st.subheader("Partial Dependence")
-            st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")
+    else:  # Compare 3 cities for one target
+        # Select target
+        target_option = st.selectbox(
+            "Select target variable",
+            ["CO2 Congestion per capita (tons/person)", 
+             "CO2 Congestion per vkt (tons/km)", 
+             "CO2 Congestion as % of total emissions"]
+        )
+        
+        # Map selection to target key
+        target_mapping = {
+            "CO2 Congestion per capita (tons/person)": "pc",
+            "CO2 Congestion per vkt (tons/km)": "vkt",
+            "CO2 Congestion as % of total emissions": "percent"
+        }
+        target_key = target_mapping[target_option]
+        
+        st.subheader(f"Model Performance Comparison: {target_option}")
+        
+        # Create three columns for different cities
+        col1, col2, col3 = st.columns(3)
+        cities = ["Mumbai", "Delhi", "Hyderabad"]
+        columns = [col1, col2, col3]
+        
+        for i, city in enumerate(cities):
+            with columns[i]:
+                st.markdown(f"###### {city}")
+                
+                # Load metrics for this city and target
+                metrics_path = f"data/ml_model/grid_{target_key}/{city.lower()}/metrics.csv"
+                if os.path.exists(metrics_path):
+                    metrics_df = pd.read_csv(metrics_path)
+                    cols_to_show = list(metrics_df.columns[:2]) + list(metrics_df.columns[-2:])
+                    st.dataframe(metrics_df[cols_to_show], hide_index=True)
 
-        # Display shap dependence plots if available
-        shap_dep_path = f"data/ml_model/grid_percent/{city.lower()}/shap_dependency_plots.png"
-        if os.path.exists(shap_dep_path):
-            st.subheader("SHAP Dependence")
-            st.image(shap_dep_path, caption="Feature impact on individual predictions")
+                    # Display plots for this city and target
+                    base_path = f"data/ml_model/grid_{target_key}/{city.lower()}"
+                    
+                    plots = [
+                        ("shap_bar_plot.png", "Feature Importance", "Feature importance based on SHAP values"),
+                        ("shap_beeswarm_plot.png", "Beeswarm Plot", "Feature impact on individual predictions"),
+                        ("sklearn_partial_dependence_plots.png", "Partial Dependence", "How individual features affect CO2 congestion predictions"),
+                        ("shap_dependency_plots.png", "SHAP Dependence", "Feature impact on individual predictions")
+                    ]
+                    
+                    for plot_file, plot_title, plot_caption in plots:
+                        plot_path = f"{base_path}/{plot_file}"
+                        if os.path.exists(plot_path):
+                            st.subheader(plot_title)
+                            st.image(plot_path, caption=plot_caption)
+                else:
+                    st.warning(f"Data not available for {city}")
 
 
 # Main function to run the page

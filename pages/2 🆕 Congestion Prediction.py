@@ -39,18 +39,12 @@ def show_ml_model_page():
         st.subheader("Methodology")
         st.write("""
         - Random Forest Regression
-        - **Target**: CO2 congestion emissions
+        - **Target**: CO2 congestion emissions (per capita and per vkt)
         - **Predictors**: 16 urban & transport features
         - 80/20 train-test split
         """)
         
-        st.subheader("Metrics")
-        metrics_data = {
-            'Metric': ['R² Score', 'RMSE', 'RRMSE'],
-            'Value': ['0.96', '2418.29', '0.70']
-        }
-        st.dataframe(pd.DataFrame(metrics_data), hide_index=True)
-    
+      
     st.markdown("---")
     
     # Data Features Section
@@ -74,25 +68,51 @@ def show_ml_model_page():
     
     # Model Results Section
     st.header("SHAP Analysis")
+    metrics_pc = pd.read_csv("data/ml_model/annual_pc/metrics.csv")
+    metrics_vkt = pd.read_csv("data/ml_model/annual_vkt/metrics.csv")
     
-    # Display SHAP importance plot if available
-    shap_importance_path = "data/ml_model/shap_bar_plot.png"
-    if os.path.exists(shap_importance_path):
-        st.subheader("SHAP Feature Importance")
-        st.image(shap_importance_path, caption="Feature importance based on SHAP values")
-
-    shap_beeswarm_path = "data/ml_model/shap_beeswarm_plot.png"
-    if os.path.exists(shap_beeswarm_path):
-        st.subheader("SHAP Beeswarm Plot")
-        st.image(shap_beeswarm_path, caption="Feature impact on individual predictions")
-    # Display partial dependence plots if available
-    partial_dep_path = "data/ml_model/sklearn_partial_dependence_plots.png"
-    if os.path.exists(partial_dep_path):
-        st.subheader("📈 Partial Dependence Analysis")
-        st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")
-        
+    # Create two columns for per capita and per vkt analysis
+    col1, col2 = st.columns(2)
     
+    with col1:
+        st.markdown("##### Target: CO2 Congestion Emissions per capita (tons/person)")
+        st.dataframe(metrics_pc, hide_index=True)
+        # Display SHAP importance plot if available
+        shap_importance_path = "data/ml_model/annual_pc/shap_bar_plot.png"
+        if os.path.exists(shap_importance_path):
+            st.subheader(" Feature Importance")
+            st.image(shap_importance_path, caption="Feature importance based on SHAP values")
 
+        shap_beeswarm_path = "data/ml_model/annual_pc/shap_beeswarm_plot.png"
+        if os.path.exists(shap_beeswarm_path):
+            st.subheader(" Beeswarm Plot")
+            st.image(shap_beeswarm_path, caption="Feature impact on individual predictions")
+            
+        # Display partial dependence plots if available
+        partial_dep_path = "data/ml_model/annual_pc/sklearn_partial_dependence_plots.png"
+        if os.path.exists(partial_dep_path):
+            st.subheader("Partial Dependence")
+            st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")
+    
+    with col2:
+        st.markdown("##### Target: CO2 Congestion Emissions per vkt (tons/km)")
+        st.dataframe(metrics_vkt, hide_index=True)
+        # Display SHAP importance plot if available
+        shap_importance_path = "data/ml_model/annual_vkt/shap_bar_plot.png"
+        if os.path.exists(shap_importance_path):
+            st.subheader("Feature Importance")
+            st.image(shap_importance_path, caption="Feature importance based on SHAP values")
+
+        shap_beeswarm_path = "data/ml_model/annual_vkt/shap_beeswarm_plot.png"
+        if os.path.exists(shap_beeswarm_path):
+            st.subheader(" Beeswarm Plot")
+            st.image(shap_beeswarm_path, caption="Feature impact on individual predictions")
+            
+        # Display partial dependence plots if available
+        partial_dep_path = "data/ml_model/annual_vkt/sklearn_partial_dependence_plots.png"
+        if os.path.exists(partial_dep_path):
+            st.subheader("Partial Dependence")
+            st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")
     
 # Main function to run the page
 if __name__ == "__main__":

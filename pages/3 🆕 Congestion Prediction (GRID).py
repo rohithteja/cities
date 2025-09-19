@@ -62,8 +62,8 @@ def show_ml_model_page():
     city = st.selectbox("Select a city", ["Mumbai", "Delhi", "Hyderabad"])
     # Model Results Section
     st.header("SHAP Analysis")
-    metrics_pc = pd.read_csv(f"data/ml_model/grid_pc/{city}/metrics.csv")
-    metrics_vkt = pd.read_csv(f"data/ml_model/grid_vkt/{city}/metrics.csv")
+    metrics_pc = pd.read_csv(f"data/ml_model/grid_pc/{city.lower()}/metrics.csv")
+    metrics_vkt = pd.read_csv(f"data/ml_model/grid_vkt/{city.lower()}/metrics.csv")
 
     # Create two columns for per capita and per vkt analysis
     col1, col2 = st.columns(2)
@@ -72,18 +72,18 @@ def show_ml_model_page():
         st.markdown("##### Target: CO2 Congestion Emissions per capita (tons/person)")
         st.dataframe(metrics_pc, hide_index=True)
         # Display SHAP importance plot if available
-        shap_importance_path = f"data/ml_model/grid_pc/{city}/shap_bar_plot.png"
+        shap_importance_path = f"data/ml_model/grid_pc/{city.lower()}/shap_bar_plot.png"
         if os.path.exists(shap_importance_path):
             st.subheader(" Feature Importance")
             st.image(shap_importance_path, caption="Feature importance based on SHAP values")
 
-        shap_beeswarm_path = f"data/ml_model/grid_pc/{city}/shap_beeswarm_plot.png"
+        shap_beeswarm_path = f"data/ml_model/grid_pc/{city.lower()}/shap_beeswarm_plot.png"
         if os.path.exists(shap_beeswarm_path):
             st.subheader(" Beeswarm Plot")
             st.image(shap_beeswarm_path, caption="Feature impact on individual predictions")
             
         # Display partial dependence plots if available
-        partial_dep_path = f"data/ml_model/grid_pc/{city}/sklearn_partial_dependence_plots.png"
+        partial_dep_path = f"data/ml_model/grid_pc/{city.lower()}/sklearn_partial_dependence_plots.png"
         if os.path.exists(partial_dep_path):
             st.subheader("Partial Dependence")
             st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")
@@ -92,18 +92,18 @@ def show_ml_model_page():
         st.markdown("##### Target: CO2 Congestion Emissions per vkt (tons/km)")
         st.dataframe(metrics_vkt, hide_index=True)
         # Display SHAP importance plot if available
-        shap_importance_path = f"data/ml_model/grid_vkt/{city}/shap_bar_plot.png"
+        shap_importance_path = f"data/ml_model/grid_vkt/{city.lower()}/shap_bar_plot.png"
         if os.path.exists(shap_importance_path):
             st.subheader("Feature Importance")
             st.image(shap_importance_path, caption="Feature importance based on SHAP values")
 
-        shap_beeswarm_path = f"data/ml_model/grid_vkt/{city}/shap_beeswarm_plot.png"
+        shap_beeswarm_path = f"data/ml_model/grid_vkt/{city.lower()}/shap_beeswarm_plot.png"
         if os.path.exists(shap_beeswarm_path):
             st.subheader(" Beeswarm Plot")
             st.image(shap_beeswarm_path, caption="Feature impact on individual predictions")
             
         # Display partial dependence plots if available
-        partial_dep_path = f"data/ml_model/grid_vkt/{city}/sklearn_partial_dependence_plots.png"
+        partial_dep_path = f"data/ml_model/grid_vkt/{city.lower()}/sklearn_partial_dependence_plots.png"
         if os.path.exists(partial_dep_path):
             st.subheader("Partial Dependence")
             st.image(partial_dep_path, caption="How individual features affect CO2 congestion predictions")

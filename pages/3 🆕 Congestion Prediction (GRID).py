@@ -29,7 +29,7 @@ def show_ml_model_page():
         
         st.subheader("Data")
         st.write("""
-        - **Cities**: Mumbai, Delhi, Hyderabad (grids of 500m x 500m)
+        - **Cities**: Mumbai, Bengaluru, Hyderabad (grids of 500m x 500m)
         - **Years**: 2021-2023  
         - **Vehicle Types**: 2W, 3W, LMV, HDV
         - ~15k-60k data points
@@ -81,7 +81,7 @@ def show_ml_model_page():
 
     if analysis_type == "Compare 3 targets for one city":
         # Select city
-        city = st.selectbox("Select a city", ["Mumbai", "Delhi", "Hyderabad"])
+        city = st.selectbox("Select a city", ["Mumbai", "Bengaluru", "Hyderabad"])
         
         # Load metrics for all targets
         metrics_pc = pd.read_csv(f"data/ml_model/grid_pc/{city.lower()}/metrics.csv")
@@ -145,7 +145,7 @@ def show_ml_model_page():
         
         # Create three columns for different cities
         col1, col2, col3 = st.columns(3)
-        cities = ["Mumbai", "Delhi", "Hyderabad"]
+        cities = ["Mumbai", "Bengaluru", "Hyderabad"]
         columns = [col1, col2, col3]
         
         for i, city in enumerate(cities):
@@ -176,6 +176,7 @@ def show_ml_model_page():
                             st.image(plot_path, caption=plot_caption)
                 else:
                     st.warning(f"Data not available for {city}")
+
 
 
 # Main function to run the page

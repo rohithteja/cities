@@ -81,7 +81,7 @@ def show_ml_model_page():
 
     if analysis_type == "Compare 3 targets for one city":
         # Select city
-        city = st.selectbox("Select a city", ["Mumbai", "Bengaluru", "Hyderabad"])
+        city = st.selectbox("Select a city", ["Mumbai", "Bengaluru", "Delhi"])
         
         # Load metrics for all targets
         metrics_pc = pd.read_csv(f"data/ml_model/grid_pc/{city.lower()}/metrics.csv")
@@ -145,7 +145,7 @@ def show_ml_model_page():
         
         # Create three columns for different cities
         col1, col2, col3 = st.columns(3)
-        cities = ["Mumbai", "Bengaluru", "Hyderabad"]
+        cities = ["Mumbai", "Bengaluru", "Delhi"]
         columns = [col1, col2, col3]
         
         for i, city in enumerate(cities):

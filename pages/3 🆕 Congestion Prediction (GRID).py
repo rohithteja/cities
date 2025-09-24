@@ -29,7 +29,7 @@ def show_ml_model_page():
         
         st.subheader("Data")
         st.write("""
-        - **Cities**: Mumbai, Bengaluru, Hyderabad (grids of 500m x 500m)
+        - **Cities**: Mumbai, Bengaluru, Delhi (grids of 500m x 500m)
         - **Years**: 2021-2023  
         - **Vehicle Types**: 2W, 3W, LMV, HDV
         - ~15k-60k data points

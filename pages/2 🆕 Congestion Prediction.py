@@ -65,9 +65,9 @@ def show_ml_model_page():
     st.header("Analysis")
     st.markdown("""
                 3 types of target variables were modeled: 
-                - CO2 Congestion per capita
-                - CO2 Congestion per vkt
-                - CO2 Congestion as a percentage of total emissions.""")
+                - CO2 Congestion per capita (Social context)
+                - CO2 Congestion per vkt (Infrastructure context)
+                - CO2 Congestion as a percentage of total emissions (Environmental context)""")
     st.markdown("(Predictors related to the target variable were removed to avoid data leakage." \
     " So there are minor changes to predictor list for each target variable.)")
     st.divider()

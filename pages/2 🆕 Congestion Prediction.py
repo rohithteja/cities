@@ -46,7 +46,7 @@ def show_ml_model_page():
         - **Predictors**: 16 urban & transport features
         - K-fold cross-validation (5 folds)
         - Metrics are reported on the test set with standard deviation from CV
-        - Metrics: R², RRMSE (Relative Root Mean Squared Error)
+        - Metrics: R², wMAPE (weighted Mean Absolute Percentage Error)
         """)
         
       
@@ -55,7 +55,7 @@ def show_ml_model_page():
     # Data Features Section
     st.header("Predictors")
     st.code(""" Population: city & state, Urban area (km²), Road length, Orientation entropy, VKT (public transport, FCD)
-    Average speed, Rho_i, rho_r, rho_ratio, GDP (billion USD), Gini coefficients, Vehicle type, Year (temporal trends)
+    Average speed, Rho_i, rho_r, rho_ratio, GDP (billion USD), Gini coefficients, Vehicle type, Year (temporal trends), Latitude, Longitude
     """)
 
 

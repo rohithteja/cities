@@ -43,8 +43,7 @@ def show_ml_model_page():
         - **Predictors**: ~30 urban & transport gridded features
         - K-fold cross-validation (5 folds)
         - Metrics are reported on the test set with standard deviation from CV
-        - Metrics: R², RRMSE (Relative Root Mean Squared Error)
-        - Note: Values of RRMSE >1 is due to skewed distribution of target variable
+        - Metrics: R², wMAPE (weighted Mean Absolute Percentage Error)
         """)
         
     
@@ -57,7 +56,7 @@ def show_ml_model_page():
     st.markdown('### Road network ')
     st.markdown('Avg_speed, road_length,  major_road(%), minor_road(%), road_density, major_road_count, minor_road_count')
     st.markdown('### Miscellaneous ')
-    st.markdown('year, vehicle_type, mean_nightlight, population')
+    st.markdown('year, vehicle_type, mean_nightlight, population, Latitude, Longitude')
 
     st.markdown("---")
     

@@ -31,7 +31,7 @@ def show_ml_model_page():
         st.write("""
         - **Cities**: Mumbai (street level)
         - **Years**: 2021 
-        - **Vehicle Types**: 2W, 3W, LMV, HDV
+        - **Vehicle Types**: Aggregate emissions (all vehicle types)
         - 100k+ data points
         """)
     

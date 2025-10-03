@@ -176,6 +176,10 @@ def show_ml_model_page():
                 else:
                     st.warning(f"Data not available for {city}")
 
+    st.markdown("---")
+    # add link of github repo
+    st.markdown("For more details, visit the [Draft paper](https://docs.google.com/document/d/1FQl3KLfv8k5ri8KtOCZpUoDlQO0PgY6L1YUrVqYcwf4/edit?usp=sharing)")
+
 
 
 # Main function to run the page
